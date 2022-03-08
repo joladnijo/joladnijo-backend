@@ -32,3 +32,17 @@ CREATE USER 'joladnijo'@'localhost';
 CREATE DATABASE joladnijo;
 GRANT ALL PRIVILEGES ON `joladnijo`.* TO 'joladnijo'@'localhost';
 ```
+
+### Migration
+
+In the project folder issue the `migrate` command (with your venv activated)
+
+```bash
+./manage.py migrate
+```
+
+### Start dev server
+
+```bash
+./manage.py runserver
+```

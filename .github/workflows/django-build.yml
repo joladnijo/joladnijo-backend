@@ -40,5 +40,5 @@ jobs:
           DBUSER: root
           DBPASSWORD: joladnijo
           DBHOST: 127.0.0.1
-          DBPORT: $
+          DBPORT: 3306
           SECRET_KEY: "jqa&w(c3sdhdxzafa)c0u71c%@v()vxzst!y^v*9^!-)&ouhp9"

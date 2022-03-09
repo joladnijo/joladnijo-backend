@@ -23,6 +23,18 @@ Install requirements:
 pip install -r requirements.txt
 ```
 
+### Environment variables
+
+| Name | Example |
+| --- | --- |
+| DBENGINE | django.db.backends.mysql
+| DBNAME | joladnijo
+| DBUSER | joladnijo
+| DBPASSWORD | secure-password
+| DBHOST | 127.0.0.1
+| DBPORT | 3306
+| SECRET_KEY | very-secret-key
+
 ### MySQL
 
 Create user `'joladnijo'@'localhost'`, database `joladnijo` and grant all privileges on the database to the user:

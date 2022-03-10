@@ -39,7 +39,7 @@ jobs:
         run: |
               python manage.py runserver &
               STATUS=`curl -s -I http://127.0.0.1:8000/admin/login/?next=/admin/ | grep HTTP/1.1 | awk {'print $2'}`
-              if [ $STATUS!="200" ] 
+              if [ $STATUS -ne "200" ] 
               then
                   exit 1
               fi

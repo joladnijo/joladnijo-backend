@@ -32,6 +32,7 @@ jobs:
       - name: Run Migrations
         run: python manage.py migrate
         env:
+          DBHOST: 127.0.0.1
           DBPASSWORD: joladnijo
           SECRET_KEY: "secret-key-for-build-pipeline"
       - name: Verify that Django is running

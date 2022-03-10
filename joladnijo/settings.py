@@ -75,14 +75,18 @@ WSGI_APPLICATION = 'joladnijo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+db_password = os.environ.get('DBPASSWORD')
+if not db_password:
+    raise ValueError("DBPASSWORD is not set.")
+
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DBENGINE', ''),
-        'NAME': os.environ.get('DBNAME', ''),
-        'USER': os.environ.get('DBUSER', ''),
-        'PASSWORD': os.environ.get('DBPASSWORD', ''),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'joladnijo',
+        'USER': 'svc_backend',
+        'PASSWORD': db_password,
         'HOST': os.environ.get('DBHOST', 'localhost'),
-        'PORT': os.environ.get('DBPORT', ''),
+        'PORT': os.environ.get('DBPORT', '3306'),
     }
 }
 

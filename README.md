@@ -27,22 +27,19 @@ pip install -r requirements.txt
 
 | Name | Example |
 | --- | --- |
-| DBENGINE | django.db.backends.mysql
-| DBNAME | joladnijo
-| DBUSER | joladnijo
 | DBPASSWORD | secure-password
-| DBHOST | 127.0.0.1
-| DBPORT | 3306
+| DBHOST (optional, defaults to `localhost`) | 127.0.0.1
+| DBPORT (optional, defaults to `3306`) | 3306
 | SECRET_KEY | very-secret-key
 
 ### MySQL
 
-Create user `'joladnijo'@'localhost'`, database `joladnijo` and grant all privileges on the database to the user:
+Create user `'svc_backend'@'localhost'`, database `joladnijo` and grant all privileges on the database to the user:
 
 ```sql
-CREATE USER 'joladnijo'@'localhost';
+CREATE USER 'svc_backend'@'localhost';
 CREATE DATABASE joladnijo;
-GRANT ALL PRIVILEGES ON `joladnijo`.* TO 'joladnijo'@'localhost';
+GRANT ALL PRIVILEGES ON `joladnijo`.* TO 'svc_backend'@'localhost';
 ```
 
 ### Migration

@@ -13,8 +13,10 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: joladnijo
           MYSQL_DATABASE: joladnijo
+          MYSQL_ROOT_PASSWORD: joladnijo
+          MYSQL_USER: svc_backend
+          MYSQL_PASSWORD: joladnijo
         ports: ["3306:3306"]
 
     steps:
@@ -30,10 +32,13 @@ jobs:
       - name: Run Migrations
         run: python manage.py migrate
         env:
-          DBENGINE: django.db.backends.mysql
-          DBNAME: joladnijo
-          DBUSER: root
           DBPASSWORD: joladnijo
-          DBHOST: 127.0.0.1
-          DBPORT: 3306
           SECRET_KEY: "secret-key-for-build-pipeline"
+      - name: Verify that Django is running
+        run: |
+              python manage.py runserver &
+              status = `curl -s -I localhost:8000 | grep HTTP/1.1 | awk {'print $2'}`
+              if [ $status!="200" ] 
+              then
+                  exit 1
+              fi

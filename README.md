@@ -58,3 +58,13 @@ In the project folder issue the `migrate` command (with your venv activated)
 ```bash
 ./manage.py runserver
 ```
+
+### Start docker compose stack with MySQL database (dev mode)
+```bash
+docker-compose up --build
+```
+
+### Start docker compose stack with MySQL database (production mode)
+```bash
+docker-compose -f docker-compose.prod.yml up --build
+```

@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  app:
+    build:
+      dockerfile: dev.Dockerfile
+      context: .
+    environment:
+      DBNAME: joladnijo
+      DBUSER: svc_backend
+      DBPASSWORD: testsvcpassword
+      DBHOST: mysql
+      DBPORT: '3306'
+      SECRET_KEY: 'very-secret-key'
+      APP_DEBUG_MODE: 'True'
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code:ro
+  
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: testrootpassword
+      MYSQL_DATABASE: joladnijo
+      MYSQL_USER: svc_backend
+      MYSQL_PASSWORD: testsvcpassword
+
+volumes:
+  mysql-data:

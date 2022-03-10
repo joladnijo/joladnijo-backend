@@ -38,8 +38,12 @@ jobs:
       - name: Verify that Django is running
         run: |
               python manage.py runserver &
-              status = `curl -s -I localhost:8000 | grep HTTP/1.1 | awk {'print $2'}`
-              if [ $status!="200" ] 
+              STATUS = `curl -s -I localhost:8000 | grep HTTP/1.1 | awk {'print $2'}`
+              if [ $STATUS!="200" ] 
               then
                   exit 1
               fi
+        env:
+          DBHOST: 127.0.0.1
+          DBPASSWORD: joladnijo
+          SECRET_KEY: "secret-key-for-build-pipeline"

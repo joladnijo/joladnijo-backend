@@ -20,6 +20,8 @@ FROM python:3.9-alpine
 COPY --from=base /usr/local/lib/python3.9/site-packages/ /usr/local/lib/python3.9/site-packages/
 COPY --from=base /usr/local/bin/ /usr/local/bin/
 
+RUN apk update && apk add --no-cache mariadb-dev
+
 WORKDIR /code
 
 ENV PYTHONUNBUFFERED 1
@@ -28,4 +30,4 @@ ENV PYTHONPATH /code:$PYTHONPATH
 EXPOSE 8000
 
 COPY . /code/
-CMD python manage.py runserver
+CMD python manage.py migrate && python manage.py runserver

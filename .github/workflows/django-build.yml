@@ -38,7 +38,7 @@ jobs:
       - name: Verify that Django is running
         run: |
               python manage.py runserver &
-              STATUS = `curl -s -I localhost:8000 | grep HTTP/1.1 | awk {'print $2'}`
+              STATUS=`curl -s -I localhost:8000 | grep HTTP/1.1 | awk {'print $2'}`
               if [ $STATUS!="200" ] 
               then
                   exit 1

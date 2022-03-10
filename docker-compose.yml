@@ -25,8 +25,6 @@ services:
       - mysql-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: testrootpassword
-      MYSQL_DATABASE: joladnijo
-      MYSQL_USER: svc_backend
       MYSQL_PASSWORD: testsvcpassword
 
 volumes:

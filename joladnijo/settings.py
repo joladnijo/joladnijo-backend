@@ -82,8 +82,8 @@ if not db_password:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DBNAME', 'joladnijo'),
-        'USER': os.environ.get('DBUSER', 'svc_backend'),
+        'NAME': 'joladnijo',
+        'USER': 'svc_backend',
         'PASSWORD': db_password,
         'HOST': os.environ.get('DBHOST', 'localhost'),
         'PORT': os.environ.get('DBPORT', '3306'),

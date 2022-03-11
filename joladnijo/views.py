@@ -19,7 +19,7 @@ def handle_403(request, exception=None):
 def handle_404(request, exception=None):
     return JsonResponse(
         status=404,
-        data={"success": False, "message": "Page not found"},
+        data={"success": False, "message": "Not found"},
     )
 
 
@@ -30,6 +30,7 @@ def handle_500(request):
     )
 
 
+#TODO: FE tesztelés után törölni
 def test(request, slug=None):
     response = {
         "success": True,

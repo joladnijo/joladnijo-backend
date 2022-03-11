@@ -83,7 +83,7 @@ if not db_password:
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.contrib.gis.db.backends.mysql',
         'NAME': 'joladnijo',
         'USER': 'svc_backend',
         'PASSWORD': db_password,

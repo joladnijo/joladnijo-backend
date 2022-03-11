@@ -18,6 +18,11 @@ from django.urls import path
 from . import views
 
 
+handler400 = 'joladnijo.views.handle_400'
+handler403 = 'joladnijo.views.handle_403'
+handler404 = 'joladnijo.views.handle_404'
+handler500 = 'joladnijo.views.handle_500'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test/400', views.handle_400),

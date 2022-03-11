@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
 from joladnijo.auth0 import requires_permission
+from joladnijo.permissions import Permissions
 
 
 @api_view(["GET"])
@@ -25,7 +26,7 @@ def private(request):
 
 
 @api_view(["GET"])
-@requires_permission("asset-request:r:a")
+@requires_permission(Permissions.ReadAnyAidCenter)
 def restricted(request):
     return JsonResponse(
         {

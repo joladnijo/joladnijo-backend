@@ -14,5 +14,6 @@
             "username": "root",
             "password": "testrootpassword"
         }
-    ]
+    ],
+    "python.formatting.provider": "black"
 }

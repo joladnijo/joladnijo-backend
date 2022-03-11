@@ -25,12 +25,16 @@ pip install -r requirements.txt
 
 ### Environment variables
 
-| Name | Example |
-| --- | --- |
-| DBPASSWORD | secure-password
-| DBHOST (optional, defaults to `localhost`) | 127.0.0.1
-| DBPORT (optional, defaults to `3306`) | 3306
-| SECRET_KEY | very-secret-key
+| Name | Description | Example |
+| --- | --- | --- |
+| DBPASSWORD | Password for MySQL DB | secure-password
+| DBHOST | DB host (optional, defaults to `localhost`) | 127.0.0.1
+| DBPORT | DB server port (optional, defaults to `3306`) | 3306
+| SECRET_KEY | Django secret key | very-secret-key
+| JWT_AUDIENCE |  Expected audience for JWT tokens | https://joladnijo.jmsz.hu/api/
+| JWT_KEYS | Full URL to `jwks.json` keys file | 
+| JWT_ISSUER | Expected JWT token issuer | 
+| JWT_ALGORITHM | Signing algorithm for JWT tokens, defaults to `RS256` | 
 
 ### MySQL
 

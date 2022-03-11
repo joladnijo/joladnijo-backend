@@ -30,4 +30,4 @@ ENV PYTHONPATH /code:$PYTHONPATH
 EXPOSE 8000
 
 COPY . /code/
-CMD python manage.py migrate && python manage.py runserver
+CMD ./start-django.sh

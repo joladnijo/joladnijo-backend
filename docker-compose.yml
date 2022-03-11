@@ -7,8 +7,6 @@ services:
       dockerfile: dev.Dockerfile
       context: .
     environment:
-      DBNAME: joladnijo
-      DBUSER: svc_backend
       DBPASSWORD: testsvcpassword
       DBHOST: mysql
       DBPORT: '3306'

@@ -5,8 +5,6 @@ services:
       - mysql
     build: .
     environment:
-      DBNAME: joladnijo
-      DBUSER: svc_backend
       DBPASSWORD: testsvcpassword
       DBHOST: mysql
       DBPORT: '3306'

@@ -38,6 +38,7 @@ class AidCenterSerializer(serializers.ModelSerializer):
     assets_requested = AssetRequestSerializer(many=True, read_only=True)
     assets_fulfilled = AssetRequestSerializer(many=True, read_only=True)
     assets_overloaded = AssetRequestSerializer(many=True, read_only=True)
+    feed = serializers.JSONField(read_only=True)
 
     class Meta:
         model = models.AidCenter

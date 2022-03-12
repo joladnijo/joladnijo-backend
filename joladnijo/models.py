@@ -2,6 +2,7 @@ import uuid
 
 from django.contrib.gis.db import models as gis_models
 from django.db import models
+from itertools import tee
 
 from simple_history.models import HistoricalRecords
 
@@ -27,6 +28,12 @@ class Organization(BaseModel, NoteableModel):
 
     def __str__(self) -> str:
         return self.name
+
+
+def pair_iterable_for_delta_changes(iterable):
+    a, b = tee(iterable)
+    next(b, None)
+    return zip(a, b)
 
 
 class AidCenter(BaseModel, NoteableModel):
@@ -59,6 +66,38 @@ class AidCenter(BaseModel, NoteableModel):
 
     def assets_overloaded(self):
         return self.assetrequest_set.overloaded()
+
+    def _changes_of(self, history, field = 'self', id = None):
+        changes = []
+        field_prefix = None
+        if field != 'self':
+            field_prefix = field
+            if id is not None:
+                field_prefix += '.%s' % id
+        for record_pair in pair_iterable_for_delta_changes(history.order_by('history_date').iterator()):
+            old_record, new_record = record_pair
+            delta = new_record.diff_against(old_record)
+            for change in delta.changes:
+                changes.append({
+                    # TODO: legyen külön mezőben a field és id, vagy jó így?
+                    'changed': change.field if field_prefix is None else '%s.%s' % (field_prefix, change.field),
+                    'from': change.old,
+                    'to': change.new,
+                    'date_time': new_record.history_date,
+                })
+        return changes
+
+    def feed(self):
+        # TODO: ezt talán jó lenne valahogy gyorsítótárazni
+        # TODO: mi kell pontosan a feedbe: elég self és assetrequest?
+        changes = self._changes_of(self.history.all())
+        for request in self.assetrequest_set.all():
+            changes += self._changes_of(request.history.all(), 'assetrequest', request.id)
+        changes += self._changes_of(self.organization.history.all(), 'organization')
+        if self.contact is not None:
+            changes += self._changes_of(self.contact.history.all(), 'contact')
+        changes.sort(key=lambda c: c['date_time'], reverse=True)
+        return changes
 
     def __str__(self) -> str:
         return '%s - %s (%s)' % (self.organization.name, self.name, self.city)

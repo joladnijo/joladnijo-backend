@@ -51,6 +51,15 @@ class AidCenter(BaseModel, NoteableModel):
     money_description = models.TextField(max_length=1023, blank=True)
     campaign_ending_on = models.DateField(blank=True, null=True)
 
+    def assets_requested(self):
+        return self.assetrequest_set.requested()
+
+    def assets_fulfilled(self):
+        return self.assetrequest_set.fulfilled()
+
+    def assets_overloaded(self):
+        return self.assetrequest_set.overloaded()
+
     def __str__(self) -> str:
         return '%s - %s (%s)' % (self.organization.name, self.name, self.city)
 
@@ -75,21 +84,43 @@ class AssetCategory(BaseModel):
     parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
     icon = models.CharField(max_length=50, blank=True)
 
+    class Meta:
+        verbose_name_plural = 'Asset categories'
+
     def __str__(self) -> str:
         return self.name
 
 
+class AssetRequestManager(models.Manager):
+
+    def requested(self):
+        return self.filter(status=AssetRequest.STATUS_REQUESTED)
+
+    def fulfilled(self):
+        return self.filter(status=AssetRequest.STATUS_FULFILLED)
+
+    def overloaded(self):
+        return self.filter(status=AssetRequest.STATUS_OVERLOADED)
+
+
 class AssetRequest(BaseModel, NoteableModel):
+    STATUS_REQUESTED = 'requested'
+    STATUS_FULFILLED = 'fulfilled'
+    STATUS_OVERLOADED = 'overloaded'
+
+    objects = AssetRequestManager()
+
     name = models.CharField(max_length=255, blank=False)
     category = models.ForeignKey(AssetCategory, on_delete=models.CASCADE)
     icon = models.CharField(max_length=50, blank=True)
+    aid_center = models.ForeignKey(AidCenter, on_delete=models.CASCADE, blank=False)
     is_urgent = models.BooleanField()
     status = models.CharField(
-        max_length=20, blank=False, default='requested',
+        max_length=20, blank=False, default=STATUS_REQUESTED,
         choices=(
-            ('requested', 'requested'),
-            ('fulfilled', 'fulfilled'),
-            ('overloaded', 'overloaded'),
+            (STATUS_REQUESTED, 'requested'),
+            (STATUS_FULFILLED, 'fulfilled'),
+            (STATUS_OVERLOADED, 'overloaded'),
         ),
     )
 

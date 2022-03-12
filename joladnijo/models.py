@@ -30,13 +30,16 @@ class AidCenter(BaseModel, NoteableModel):
     slug = models.SlugField(max_length=255, blank=False, unique=True)
     photo = models.FileField(max_length=255, blank=True, upload_to='aidcenter-photos')
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    country_code = models.CharField(max_length=5, blank=False)
+    postal_code = models.CharField(max_length=10, blank=False)
+    city = models.CharField(max_length=50, blank=False)
+    address = models.CharField(max_length=255, blank=False)
     geo_location = gis_models.PointField(blank=True, null=True)
     call_required = models.CharField(
         max_length=20, blank=True, null=True,
         choices=(
             ('required', 'required'),
             ('suggested', 'suggested'),
-            ('none', 'none'),
             ('denied', 'denied'),
         ),
     )
@@ -54,9 +57,3 @@ class Contact(BaseModel, NoteableModel):
     organization = models.OneToOneField(Organization, on_delete=models.CASCADE, blank=True, null=True)
     aid_center = models.OneToOneField(AidCenter, on_delete=models.CASCADE, blank=True, null=True)
 
-class Address(BaseModel, NoteableModel):
-    aid_center = models.OneToOneField(AidCenter, on_delete=models.CASCADE)
-    country_code = models.CharField(max_length=5)
-    postal_code = models.CharField(max_length=10)
-    city = models.CharField(max_length=50)
-    address = models.CharField(max_length=255)

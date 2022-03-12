@@ -24,6 +24,9 @@ class Organization(BaseModel, NoteableModel):
     name = models.CharField(max_length=255, blank=False, unique=True)
     slug = models.SlugField(max_length=255, blank=False, unique=True)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class AidCenter(BaseModel, NoteableModel):
     name = models.CharField(max_length=255, blank=False, unique=True)
@@ -47,6 +50,9 @@ class AidCenter(BaseModel, NoteableModel):
     money_description = models.CharField(max_length=1023, blank=True)
     campaign_ending_on = models.DateField(blank=True, null=True)
 
+    def __str__(self) -> str:
+        return '%s - %s (%s)' % (self.organization.name, self.name, self.city)
+
 
 class Contact(BaseModel, NoteableModel):
     name = models.CharField(max_length=255, blank=False)
@@ -56,4 +62,9 @@ class Contact(BaseModel, NoteableModel):
     url = models.URLField(max_length=255, blank=True)
     organization = models.OneToOneField(Organization, on_delete=models.CASCADE, blank=True, null=True)
     aid_center = models.OneToOneField(AidCenter, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self) -> str:
+        if self.phone == '':
+            return '%s (%s)' % (self.name, self.email)
+        return '%s (%s, %s)' % (self.name, self.phone, self.email)
 

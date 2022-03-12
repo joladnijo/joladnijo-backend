@@ -1,6 +1,6 @@
 import uuid
 
-# from django.contrib.gis.db import models as gis_models
+from django.contrib.gis.db import models as gis_models
 from django.db import models
 
 
@@ -30,7 +30,7 @@ class AidCenter(BaseModel, NoteableModel):
     slug = models.SlugField(max_length=255, blank=False, unique=True)
     photo = models.CharField(max_length=255, blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    # geo_location = gis_models.PointField(blank=True, null=True)
+    geo_location = gis_models.PointField(blank=True, null=True)
     call_required = models.CharField(
         max_length=20, blank=True, null=True,
         choices=(

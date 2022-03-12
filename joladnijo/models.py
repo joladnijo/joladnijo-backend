@@ -14,7 +14,7 @@ class BaseModel(models.Model):
 
 
 class NoteableModel(models.Model):
-    note = models.CharField(max_length=255, blank=True)
+    note = models.TextField(max_length=255, blank=True)
 
     class Meta:
         abstract = True
@@ -47,7 +47,7 @@ class AidCenter(BaseModel, NoteableModel):
         ),
     )
     money_accepted = models.BooleanField(blank=True, null=True)
-    money_description = models.CharField(max_length=1023, blank=True)
+    money_description = models.TextField(max_length=1023, blank=True)
     campaign_ending_on = models.DateField(blank=True, null=True)
 
     def __str__(self) -> str:

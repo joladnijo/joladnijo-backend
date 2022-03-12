@@ -20,6 +20,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class AidCenterSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer()
     contact = ContactSerializer()
+    geo_location = serializers.JSONField()
 
     class Meta:
         model = models.AidCenter

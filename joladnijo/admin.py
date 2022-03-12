@@ -2,18 +2,21 @@ from django.contrib import admin
 from django.contrib.gis import admin as gis_admin
 from django.utils.safestring import mark_safe
 from django.urls import reverse
+
+from simple_history.admin import SimpleHistoryAdmin
+
 from . import models
 
 
 @admin.register(models.Organization)
-class OrganizationAdmin(admin.ModelAdmin):
+class OrganizationAdmin(SimpleHistoryAdmin):
     list_display = ['name']
     fields = (('name', 'slug'), 'note')
     prepopulated_fields = {'slug': ['name']}
 
 
 @admin.register(models.AidCenter)
-class AidCenterAdmin(gis_admin.GeoModelAdmin):
+class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
     list_display = ['name', 'city', 'organization_link']
     list_filter = ['organization']
     readonly_fields = ['organization_link']
@@ -59,7 +62,7 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin):
 
 
 @admin.register(models.Contact)
-class ContactAdmin(admin.ModelAdmin):
+class ContactAdmin(SimpleHistoryAdmin):
     list_display = ['name', 'email', 'phone']
     list_filter = ['organization', 'aid_center']
     fields = (

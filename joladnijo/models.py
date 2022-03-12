@@ -3,11 +3,12 @@ import uuid
 from django.contrib.gis.db import models as gis_models
 from django.db import models
 
+from simple_history.models import HistoricalRecords
+
 
 class BaseModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords(inherit=True)
 
     class Meta:
         abstract = True
@@ -68,3 +69,29 @@ class Contact(BaseModel, NoteableModel):
             return '%s (%s)' % (self.name, self.email)
         return '%s (%s, %s)' % (self.name, self.phone, self.email)
 
+
+class AssetCategory(BaseModel):
+    name = models.CharField(max_length=255, blank=False, unique=True)
+    parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
+    icon = models.CharField(max_length=50, blank=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class AssetRequest(BaseModel, NoteableModel):
+    name = models.CharField(max_length=255, blank=False)
+    category = models.ForeignKey(AssetCategory, on_delete=models.CASCADE)
+    icon = models.CharField(max_length=50, blank=True)
+    is_urgent = models.BooleanField()
+    status = models.CharField(
+        max_length=20, blank=False, default='requested',
+        choices=(
+            ('requested', 'requested'),
+            ('fulfilled', 'fulfilled'),
+            ('overloaded', 'overloaded'),
+        ),
+    )
+
+    def __str__(self) -> str:
+        return self.name

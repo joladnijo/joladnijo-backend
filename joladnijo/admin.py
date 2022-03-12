@@ -75,3 +75,30 @@ class ContactAdmin(SimpleHistoryAdmin):
         'aid_center',
         'note',
     )
+
+
+@admin.register(models.AssetCategory)
+class AssetCategoryAdmin(SimpleHistoryAdmin):
+    list_display = ['name', 'parent']
+    list_filter = ['parent']
+    fields = (
+        ('name', 'icon'),
+        'parent',
+    )
+
+
+@admin.register(models.AssetRequest)
+class AssetRequestAdmin(SimpleHistoryAdmin):
+    list_display = ['name', 'aid_center_link', 'is_urgent', 'status']
+    list_filter = ['category', 'is_urgent', 'status', 'aid_center']
+    fields = (
+        ('name', 'icon'),
+        'category',
+        'aid_center',
+        ('status', 'is_urgent'),
+    )
+
+    def aid_center_link(self, obj):
+        url = reverse('admin:joladnijo_aidcenter_change', args=[obj.aid_center.pk])
+        return mark_safe('<a href="%s">%s</a>' % (url, obj.aid_center))
+    aid_center_link.short_description = 'aid_center'

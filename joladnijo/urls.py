@@ -21,9 +21,7 @@ from . import views
 
 
 router = SimpleRouter()
-router.register(r'organizations', views.OrganizationViewSet)
 router.register(r'aid-centers', views.AidCenterViewSet)
-router.register(r'contacts', views.ContactViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

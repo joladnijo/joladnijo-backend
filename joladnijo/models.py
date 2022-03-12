@@ -90,6 +90,10 @@ class AssetCategory(BaseModel):
     def __str__(self) -> str:
         return self.name
 
+    def clean(self):
+        if self.parent == self:
+            raise RecursionError("An asset category can't be its own parent")
+
 
 class AssetRequestManager(models.Manager):
 

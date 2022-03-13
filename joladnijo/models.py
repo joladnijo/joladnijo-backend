@@ -127,6 +127,8 @@ class AssetCategory(BaseModel):
         verbose_name_plural = 'Asset categories'
 
     def __str__(self) -> str:
+        if self.parent is not None:
+            return '%s (%s)' % (self.name, self.parent.name)
         return self.name
 
     def clean(self):

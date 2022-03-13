@@ -88,8 +88,10 @@ class AssetCategoryAdmin(SimpleHistoryAdmin):
 
     def render_change_form(self, request, context, *args, **kwargs):
         obj = kwargs['obj']
+        parent_qs = models.AssetCategory.objects.filter(parent__isnull=True)
         if obj is not None:
-            context['adminform'].form.fields['parent'].queryset = models.AssetCategory.objects.exclude(id=obj.id)
+            parent_qs = parent_qs.exclude(id=obj.id)
+        context['adminform'].form.fields['parent'].queryset = parent_qs
         return super(AssetCategoryAdmin, self).render_change_form(request, context, *args, **kwargs)
 
 

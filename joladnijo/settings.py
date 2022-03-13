@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': 'joladnijo',
         'USER': 'svc_backend',
         'PASSWORD': db_password,
-        'HOST': os.environ.get('DBHOST', 'localhost'),
+        'HOST': os.environ.get('DBHOST', '127.0.0.1'),
         'PORT': os.environ.get('DBPORT', '3306'),
     }
 }

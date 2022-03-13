@@ -8,11 +8,35 @@ from simple_history.admin import SimpleHistoryAdmin
 from . import models
 
 
+class ContactInline(admin.StackedInline):
+    model = models.Contact
+    fields = (
+        'name',
+        'email',
+        'phone',
+        'facebook',
+        'url',
+        'note',
+    )
+
+    class Meta:
+        abstract = True
+
+
+class OrganizationContactInline(ContactInline):
+    fk_name = 'organization'
+
+
+class AidCenterContactInline(ContactInline):
+    fk_name = 'aid_center'
+
+
 @admin.register(models.Organization)
 class OrganizationAdmin(SimpleHistoryAdmin):
     list_display = ['name']
     fields = (('name', 'slug'), 'note')
     prepopulated_fields = {'slug': ['name']}
+    inlines = [OrganizationContactInline]
 
 
 @admin.register(models.AidCenter)
@@ -40,9 +64,6 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
                 'geo_location',
             ),
         }),
-        ('Contact', {
-            'fields': ('call_required',),
-        }),
         ('Needs', {
             'fields': (
                 'money_accepted',
@@ -51,9 +72,13 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
             ),
         }),
         ('Other', {
-            'fields': ('note',),
+            'fields': (
+                'call_required',
+                'note',
+            ),
         }),
     )
+    inlines = [AidCenterContactInline]
 
     def organization_link(self, obj):
         url = reverse('admin:joladnijo_organization_change', args=[obj.organization.pk])

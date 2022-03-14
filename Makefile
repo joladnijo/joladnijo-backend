@@ -1,5 +1,6 @@
 format:
-	isort --recursive joladnijo/
+	isort joladnijo/
+	black -l 120 joladnijo/
 
 flake:
 	flake8 joladnijo/ --ignore=E203,W503
@@ -9,7 +10,6 @@ black:
 
 typing:
 	mypy --show-error-codes -p joladnijo
-	black -l 120 joladnijo/
 
 lint: black flake typing
 

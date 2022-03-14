@@ -1,9 +1,10 @@
+import re
 import uuid
+from itertools import tee
 
 from django.contrib.gis.db import models as gis_models
 from django.db import models
-from itertools import tee
-
+from djangorestframework_camel_case.util import camelize_re, underscore_to_camel
 from simple_history.models import HistoricalRecords
 
 
@@ -30,8 +31,8 @@ class Organization(BaseModel, NoteableModel):
         return self.name
 
 
-def pair_iterable_for_delta_changes(iterable):
-    a, b = tee(iterable)
+def _iterable_pair(i):
+    a, b = tee(i)
     next(b, None)
     return zip(a, b)
 
@@ -67,35 +68,42 @@ class AidCenter(BaseModel, NoteableModel):
     def assets_overloaded(self):
         return self.assetrequest_set.overloaded()
 
-    def _changes_of(self, history, field = 'self', id = None):
+    def _changes_of(self, history, obj):
         changes = []
-        field_prefix = None
-        if field != 'self':
-            field_prefix = field
-            if id is not None:
-                field_prefix += '.%s' % id
-        for record_pair in pair_iterable_for_delta_changes(history.order_by('history_date').iterator()):
-            old_record, new_record = record_pair
-            delta = new_record.diff_against(old_record)
-            for change in delta.changes:
+        name = 'this'
+        if obj is not None:
+            name += '.%s[%s]' % obj
+        first = True
+        for pair in _iterable_pair(history.order_by('history_date').iterator()):
+            old, new = pair
+            if first:
                 changes.append({
-                    # TODO: legyen külön mezőben a field és id, vagy jó így?
-                    'changed': change.field if field_prefix is None else '%s.%s' % (field_prefix, change.field),
+                    'created': name,
+                    'date_time': new.history_date,
+                })
+                first = False
+            delta = new.diff_against(old)
+            for change in delta.changes:
+                field = change.field
+                if '_' in field:
+                    field = re.sub(camelize_re, underscore_to_camel, field)
+                changes.append({
+                    'changed': '%s.%s' % (name, field),
                     'from': change.old,
                     'to': change.new,
-                    'date_time': new_record.history_date,
+                    'date_time': new.history_date,
                 })
         return changes
 
     def feed(self):
         # TODO: ezt talán jó lenne valahogy gyorsítótárazni
         # TODO: mi kell pontosan a feedbe: elég self és assetrequest?
-        changes = self._changes_of(self.history.all())
+        changes = self._changes_of(self.history.all(), None)
         for request in self.assetrequest_set.all():
-            changes += self._changes_of(request.history.all(), 'assetrequest', request.id)
-        changes += self._changes_of(self.organization.history.all(), 'organization')
-        if self.contact is not None:
-            changes += self._changes_of(self.contact.history.all(), 'contact')
+            changes += self._changes_of(request.history.all(), ('assetrequest', request.id))
+        changes += self._changes_of(self.organization.history.all(), ('organization', self.organization.id))
+        if hasattr(self, 'contact'):
+            changes += self._changes_of(self.contact.history.all(), ('contact', self.contact.id))
         changes.sort(key=lambda c: c['date_time'], reverse=True)
         return changes
 
@@ -116,6 +124,12 @@ class Contact(BaseModel, NoteableModel):
         if self.phone == '':
             return '%s (%s)' % (self.name, self.email)
         return '%s (%s, %s)' % (self.name, self.phone, self.email)
+
+    '''
+    def clean(self):
+        if self.organization is not None and self.aid_center is not None:
+            # TODO: itt legyen exception?
+    '''
 
 
 class AssetCategory(BaseModel):

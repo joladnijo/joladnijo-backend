@@ -20,7 +20,11 @@ def jwt_decode_token(token):
         raise Exception("Public key not found.")
 
     return jwt.decode(
-        token, public_key, audience=os.environ.get("JWT_AUDIENCE"), issuer=os.environ.get("JWT_ISSUER"), algorithms=[os.environ.get("JWT_ALGORITHM", "RS256")]
+        token,
+        public_key,
+        audience=os.environ.get("JWT_AUDIENCE"),
+        issuer=os.environ.get("JWT_ISSUER"),
+        algorithms=[os.environ.get("JWT_ALGORITHM", "RS256")],
     )
 
 
@@ -55,9 +59,7 @@ def requires_permission(required_permission):
                 for permission in permissions:
                     if permission == required_permission:
                         return f(*args, **kwargs)
-            response = JsonResponse(
-                {"message": "You don't have access to this resource"}
-            )
+            response = JsonResponse({"message": "You don't have access to this resource"})
             response.status_code = 403
             return response
 

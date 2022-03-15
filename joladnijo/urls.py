@@ -14,12 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-
+from django.urls import include, path
 from rest_framework.routers import SimpleRouter
 
 from . import views
-
 
 handler400 = 'joladnijo.views.handle_400'
 handler403 = 'joladnijo.views.handle_403'
@@ -31,13 +29,13 @@ router.register(r'aid-centers', views.AidCenterViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #TODO: FE tesztelés után törölni innentől
+    # TODO: FE tesztelés után törölni innentől
     path('test', views.test),
     path('test/400', views.handle_400),
     path('test/403', views.handle_403),
     path('test/404', views.handle_404),
     path('test/500', views.handle_500),
     path('test/<slug:slug>', views.test),
-    #TODO: FE tesztelés után törölni idáig
+    # TODO: FE tesztelés után törölni idáig
     path('', include(router.urls)),
 ]

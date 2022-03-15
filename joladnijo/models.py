@@ -27,6 +27,9 @@ class Organization(BaseModel, NoteableModel):
     name = models.CharField(max_length=255, blank=False, unique=True)
     slug = models.SlugField(max_length=255, blank=False, unique=True)
 
+    class Meta(BaseModel.Meta, NoteableModel.Meta):
+        pass
+
     def __str__(self) -> str:
         return self.name
 
@@ -60,6 +63,9 @@ class AidCenter(BaseModel, NoteableModel):
     money_accepted = models.BooleanField(blank=True, null=True)
     money_description = models.TextField(max_length=1023, blank=True)
     campaign_ending_on = models.DateField(blank=True, null=True)
+
+    class Meta(BaseModel.Meta, NoteableModel.Meta):
+        pass
 
     def assets_requested(self):
         return self.assetrequest_set.requested()
@@ -126,6 +132,9 @@ class Contact(BaseModel, NoteableModel):
     organization = models.OneToOneField(Organization, on_delete=models.CASCADE, blank=True, null=True)
     aid_center = models.OneToOneField(AidCenter, on_delete=models.CASCADE, blank=True, null=True)
 
+    class Meta(BaseModel.Meta, NoteableModel.Meta):
+        pass
+
     def __str__(self) -> str:
         if self.phone == '':
             return '%s (%s)' % (self.name, self.email)
@@ -189,6 +198,9 @@ class AssetRequest(BaseModel, NoteableModel):
             (STATUS_OVERLOADED, 'overloaded'),
         ),
     )
+
+    class Meta(BaseModel.Meta, NoteableModel.Meta):
+        pass
 
     def __str__(self) -> str:
         return self.name

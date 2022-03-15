@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 COPY requirements.txt ./
 RUN apk update \
     && apk add --virtual build-deps gcc python3-dev musl-dev \
-    && apk add --no-cache mariadb-dev \
+    && apk add --no-cache mariadb-dev binutils libproj-dev gdal-bin \
     && pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt \
     && find /usr/local \
@@ -20,7 +20,7 @@ FROM python:3.9-alpine
 COPY --from=base /usr/local/lib/python3.9/site-packages/ /usr/local/lib/python3.9/site-packages/
 COPY --from=base /usr/local/bin/ /usr/local/bin/
 
-RUN apk update && apk add --no-cache mariadb-dev
+RUN apk update && apk add --no-cache mariadb-dev binutils libproj-dev gdal-bin
 
 WORKDIR /code
 

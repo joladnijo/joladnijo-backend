@@ -27,6 +27,9 @@ class Organization(BaseModel, NoteableModel):
     name = models.CharField(max_length=255, blank=False, unique=True)
     slug = models.SlugField(max_length=255, blank=False, unique=True)
 
+    class Meta(BaseModel.Meta, NoteableModel.Meta):
+        pass
+
     def __str__(self) -> str:
         return self.name
 
@@ -48,7 +51,9 @@ class AidCenter(BaseModel, NoteableModel):
     address = models.CharField(max_length=255, blank=False)
     geo_location = gis_models.PointField(blank=True, null=True)
     call_required = models.CharField(
-        max_length=20, blank=True, null=True,
+        max_length=20,
+        blank=True,
+        null=True,
         choices=(
             ('required', 'required'),
             ('suggested', 'suggested'),
@@ -58,6 +63,9 @@ class AidCenter(BaseModel, NoteableModel):
     money_accepted = models.BooleanField(blank=True, null=True)
     money_description = models.TextField(max_length=1023, blank=True)
     campaign_ending_on = models.DateField(blank=True, null=True)
+
+    class Meta(BaseModel.Meta, NoteableModel.Meta):
+        pass
 
     def assets_requested(self):
         return self.assetrequest_set.requested()
@@ -77,22 +85,26 @@ class AidCenter(BaseModel, NoteableModel):
         for pair in _iterable_pair(history.order_by('history_date').iterator()):
             old, new = pair
             if first:
-                changes.append({
-                    'created': name,
-                    'date_time': new.history_date,
-                })
+                changes.append(
+                    {
+                        'created': name,
+                        'date_time': new.history_date,
+                    }
+                )
                 first = False
             delta = new.diff_against(old)
             for change in delta.changes:
                 field = change.field
                 if '_' in field:
                     field = re.sub(camelize_re, underscore_to_camel, field)
-                changes.append({
-                    'changed': '%s.%s' % (name, field),
-                    'from': change.old,
-                    'to': change.new,
-                    'date_time': new.history_date,
-                })
+                changes.append(
+                    {
+                        'changed': '%s.%s' % (name, field),
+                        'from': change.old,
+                        'to': change.new,
+                        'date_time': new.history_date,
+                    }
+                )
         return changes
 
     def feed(self):
@@ -119,6 +131,9 @@ class Contact(BaseModel, NoteableModel):
     url = models.URLField(max_length=255, blank=True)
     organization = models.OneToOneField(Organization, on_delete=models.CASCADE, blank=True, null=True)
     aid_center = models.OneToOneField(AidCenter, on_delete=models.CASCADE, blank=True, null=True)
+
+    class Meta(BaseModel.Meta, NoteableModel.Meta):
+        pass
 
     def __str__(self) -> str:
         if self.phone == '':
@@ -151,7 +166,6 @@ class AssetCategory(BaseModel):
 
 
 class AssetRequestManager(models.Manager):
-
     def requested(self):
         return self.filter(status=AssetRequest.STATUS_REQUESTED)
 
@@ -175,13 +189,18 @@ class AssetRequest(BaseModel, NoteableModel):
     aid_center = models.ForeignKey(AidCenter, on_delete=models.CASCADE, blank=False)
     is_urgent = models.BooleanField()
     status = models.CharField(
-        max_length=20, blank=False, default=STATUS_REQUESTED,
+        max_length=20,
+        blank=False,
+        default=STATUS_REQUESTED,
         choices=(
             (STATUS_REQUESTED, 'requested'),
             (STATUS_FULFILLED, 'fulfilled'),
             (STATUS_OVERLOADED, 'overloaded'),
         ),
     )
+
+    class Meta(BaseModel.Meta, NoteableModel.Meta):
+        pass
 
     def __str__(self) -> str:
         return self.name

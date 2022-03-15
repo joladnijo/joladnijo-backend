@@ -1,12 +1,12 @@
 version: '3.7'
 services:
   app:
+    depends_on:
+      - mysql
     build:
       dockerfile: dev.Dockerfile
       context: .
     environment:
-      DBNAME: joladnijo
-      DBUSER: svc_backend
       DBPASSWORD: testsvcpassword
       DBHOST: mysql
       DBPORT: '3306'
@@ -15,8 +15,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/code:ro
-  
+      - .:/code
+
   mysql:
     image: mysql:5.7
     ports:
@@ -26,6 +26,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: testrootpassword
       MYSQL_PASSWORD: testsvcpassword
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
 
 volumes:
   mysql-data:

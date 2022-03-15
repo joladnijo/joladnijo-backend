@@ -1,5 +1,9 @@
 # JolAdniJo - Django backend
 
+Ez a https://joladnijo.jmsz.hu adományozási információkat segítő oldal backendjének repója.
+
+[Projektünk](https://github.com/orgs/joladnijo/projects/1/) működéséről, az issue-k feldolgozásának módjáról, és a bekapcsolódási lehetőségekről lásd a [központi README](https://github.com/joladnijo/joladnijo-docs/blob/main/README.md#hogyan-seg%C3%ADthetsz---m%C5%B1k%C3%B6d%C3%A9s%C3%BCnk)-t.
+
 ## Requirements
 
 * python 3.9 (was created using `3.9.10`)

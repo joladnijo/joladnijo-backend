@@ -15,8 +15,31 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework.routers import SimpleRouter
+
+from . import views
+
+
+handler400 = "joladnijo.views.handle_400"
+handler403 = "joladnijo.views.handle_403"
+handler404 = "joladnijo.views.handle_404"
+handler500 = "joladnijo.views.handle_500"
+
+router = SimpleRouter()
+router.register(r"aid-centers", views.AidCenterViewSet)
 
 urlpatterns = [
-    path("admin/", admin.site.urls), 
-    path("", include("auth0.urls")) # Only for testing auth0
+    path("admin/", admin.site.urls),
+    path("", include("auth0.urls"))# Only for testing auth0
+
+    # TODO: FE tesztelés után törölni innentől
+    path("test", views.test),
+    path("test/400", views.handle_400),
+    path("test/403", views.handle_403),
+    path("test/404", views.handle_404),
+    path("test/500", views.handle_500),
+    path("test/<slug:slug>", views.test),
+    # TODO: FE tesztelés után törölni idáig
+
+    path("", include(router.urls)),
 ]

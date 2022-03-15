@@ -28,6 +28,12 @@ DEBUG = os.environ.get('APP_DEBUG_MODE', False)
 
 ALLOWED_HOSTS = ['*']
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'https://staging.joladnijo.jmsz.hu',
+    'https://joladnijo.jmsz.hu',
+]
+
 
 # Application definition
 
@@ -39,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'corsheaders',
     'rest_framework',
     'simple_history',
     'joladnijo',
@@ -52,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
@@ -89,7 +98,7 @@ DATABASES = {
         'NAME': 'joladnijo',
         'USER': 'svc_backend',
         'PASSWORD': db_password,
-        'HOST': os.environ.get('DBHOST', 'localhost'),
+        'HOST': os.environ.get('DBHOST', '127.0.0.1'),
         'PORT': os.environ.get('DBPORT', '3306'),
         'OPTIONS': {'charset': 'utf8mb4'},
     }

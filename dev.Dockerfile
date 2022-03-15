@@ -8,6 +8,7 @@ RUN apt-get update \
 
 WORKDIR /code
 ENV PYTHONPATH /code:$PYTHONPATH
+ENV PYTHONUNBUFFERED 1
 EXPOSE 8000
 
 CMD ./start-django.sh

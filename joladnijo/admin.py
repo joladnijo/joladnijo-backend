@@ -1,8 +1,7 @@
 from django.contrib import admin
 from django.contrib.gis import admin as gis_admin
-from django.utils.safestring import mark_safe
 from django.urls import reverse
-
+from django.utils.safestring import mark_safe
 from simple_history.admin import SimpleHistoryAdmin
 
 from . import models
@@ -49,40 +48,53 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
     default_lon = 19.503996
     default_zoom = 7
     fieldsets = (
-        ('Basic info', {
-            'fields': (
-                ('name', 'slug'),
-                'photo',
-                'organization',
-            ),
-        }),
-        ('Location', {
-            'fields': (
-                'country_code',
-                ('postal_code', 'city'),
-                'address',
-                'geo_location',
-            ),
-        }),
-        ('Needs', {
-            'fields': (
-                'money_accepted',
-                'money_description',
-                'campaign_ending_on',
-            ),
-        }),
-        ('Other', {
-            'fields': (
-                'call_required',
-                'note',
-            ),
-        }),
+        (
+            'Basic info',
+            {
+                'fields': (
+                    ('name', 'slug'),
+                    'photo',
+                    'organization',
+                ),
+            },
+        ),
+        (
+            'Location',
+            {
+                'fields': (
+                    'country_code',
+                    ('postal_code', 'city'),
+                    'address',
+                    'geo_location',
+                ),
+            },
+        ),
+        (
+            'Needs',
+            {
+                'fields': (
+                    'money_accepted',
+                    'money_description',
+                    'campaign_ending_on',
+                ),
+            },
+        ),
+        (
+            'Other',
+            {
+                'fields': (
+                    'call_required',
+                    'note',
+                ),
+            },
+        ),
     )
     inlines = [AidCenterContactInline]
 
     def organization_link(self, obj):
         url = reverse('admin:joladnijo_organization_change', args=[obj.organization.pk])
         return mark_safe('<a href="%s">%s</a>' % (url, obj.organization))
+
     organization_link.short_description = 'organization'
 
 
@@ -134,4 +146,5 @@ class AssetRequestAdmin(SimpleHistoryAdmin):
     def aid_center_link(self, obj):
         url = reverse('admin:joladnijo_aidcenter_change', args=[obj.aid_center.pk])
         return mark_safe('<a href="%s">%s</a>' % (url, obj.aid_center))
+
     aid_center_link.short_description = 'aid_center'

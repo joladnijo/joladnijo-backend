@@ -10,4 +10,4 @@ WORKDIR /code
 ENV PYTHONPATH /code:$PYTHONPATH
 EXPOSE 8000
 
-CMD python manage.py runserver
+CMD ./start-django.sh

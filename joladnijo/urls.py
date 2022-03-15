@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from drf_spectacular.views import SpectacularJSONAPIView, SpectacularRedocView
 from rest_framework.routers import SimpleRouter
 
 from . import views
@@ -24,5 +25,7 @@ router.register(r'aid-centers', views.AidCenterViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('schema/', SpectacularJSONAPIView.as_view(), name='schema'),
+    path('docs/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('', include(router.urls)),
 ]

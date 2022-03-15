@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'rest_framework',
+    'drf_spectacular',
     'simple_history',
     'joladnijo',
 ]
@@ -149,6 +150,16 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Jól Adni Jó API',
+    'DESCRIPTION': 'Humanitárius válságban fontos, hogy jól adjuk oda és azt amire szükség van.\n\nHasonló igaz egy API-ra is úgy általában.',
+    'VERSION': '1.0.0',
+    'POSTPROCESSING_HOOKS': [
+        'drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields',
     ],
 }
 

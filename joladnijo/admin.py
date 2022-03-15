@@ -91,11 +91,13 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
     )
     inlines = [AidCenterContactInline]
 
+    @admin.display(
+        description='Organization',
+        ordering='name',
+    )
     def organization_link(self, obj):
         url = reverse('admin:joladnijo_organization_change', args=[obj.organization.pk])
         return mark_safe('<a href="%s">%s</a>' % (url, obj.organization))
-
-    organization_link.short_description = 'organization'
 
 
 @admin.register(models.Contact)
@@ -143,8 +145,10 @@ class AssetRequestAdmin(SimpleHistoryAdmin):
         ('status', 'is_urgent'),
     )
 
+    @admin.display(
+        description='Aid center',
+        ordering='name',
+    )
     def aid_center_link(self, obj):
         url = reverse('admin:joladnijo_aidcenter_change', args=[obj.aid_center.pk])
         return mark_safe('<a href="%s">%s</a>' % (url, obj.aid_center))
-
-    aid_center_link.short_description = 'aid_center'

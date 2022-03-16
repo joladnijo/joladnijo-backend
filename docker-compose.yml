@@ -12,6 +12,9 @@ services:
       DBPORT: '3306'
       SECRET_KEY: 'very-secret-key'
       APP_DEBUG_MODE: 'True'
+      JWT_AUDIENCE: https://joladnijo.jmsz.hu/api/
+      JWT_KEYS: https://dev-ulmlyx6h.eu.auth0.com/.well-known/jwks.json
+      JWT_ISSUER: https://dev-ulmlyx6h.eu.auth0.com/
     ports:
       - "8000:8000"
     volumes:

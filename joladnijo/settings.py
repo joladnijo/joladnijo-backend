@@ -89,16 +89,12 @@ WSGI_APPLICATION = "joladnijo.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-db_password = os.environ.get("DBPASSWORD")
-if not db_password:
-    raise ValueError('DBPASSWORD is not set.')
-
 DATABASES = {
     "default": {
         "ENGINE": "django.contrib.gis.db.backends.mysql",
         "NAME": "joladnijo",
         "USER": "svc_backend",
-        "PASSWORD": db_password,
+        "PASSWORD": os.environ["DBPASSWORD"],
         "HOST": os.environ.get("DBHOST", "127.0.0.1"),
         "PORT": os.environ.get("DBPORT", "3306"),
         "OPTIONS": {"charset": "utf8mb4"},
@@ -158,7 +154,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # REST Framework
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -177,8 +172,8 @@ JWT_AUTH = {
     "JWT_PAYLOAD_GET_USERNAME_HANDLER": "joladnijo.auth0.jwt_get_username_from_payload_handler",
     "JWT_DECODE_HANDLER": "joladnijo.auth0.jwt_decode_token",
     "JWT_ALGORITHM": os.environ.get('JWT_ALGORITHM', 'RS256'),
-    "JWT_AUDIENCE": os.environ.get('JWT_AUDIENCE'),
-    "JWT_ISSUER": os.environ.get('JWT_ISSUER'),
+    "JWT_AUDIENCE": os.environ['JWT_AUDIENCE'],
+    "JWT_ISSUER": os.environ['JWT_ISSUER'],
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
 }
 

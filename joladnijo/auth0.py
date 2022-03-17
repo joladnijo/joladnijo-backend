@@ -22,21 +22,24 @@ def jwt_decode_token(token):
     return jwt.decode(
         token,
         public_key,
-        audience=os.environ.get("JWT_AUDIENCE"),
-        issuer=os.environ.get("JWT_ISSUER"),
+        audience=os.environ["JWT_AUDIENCE"],
+        issuer=os.environ["JWT_ISSUER"],
         algorithms=[os.environ.get("JWT_ALGORITHM", "RS256")],
     )
 
 
 def jwt_get_username_from_payload_handler(payload):
-    username = payload.get("sub").replace("|", ".")
+    username = payload["sub"].replace("|", ".")
     authenticate(remote_user=username)
     return username
 
 
 def get_token_auth_header(request):
     """Obtains the Access Token from the Authorization Header"""
-    auth = request.META.get("HTTP_AUTHORIZATION", None)
+    auth = request.META.get("HTTP_AUTHORIZATION")
+    if not auth:
+        return None
+
     parts = auth.split()
     token = parts[1]
 
@@ -53,12 +56,13 @@ def requires_permission(required_permission):
         @wraps(f)
         def decorated(*args, **kwargs):
             token = get_token_auth_header(args[0])
-            decoded = jwt.decode(token, verify=False)
-            if decoded.get("permissions"):
-                permissions = decoded["permissions"]
-                for permission in permissions:
-                    if permission == required_permission:
-                        return f(*args, **kwargs)
+            if token:
+                decoded = jwt.decode(token, verify=False)
+                permissions = decoded.get("permissions")
+                if permissions:
+                    for permission in permissions:
+                        if permission == required_permission:
+                            return f(*args, **kwargs)
             response = JsonResponse({"message": "You don't have access to this resource"})
             response.status_code = 403
             return response

@@ -36,8 +36,8 @@ pip install -r requirements.txt
 | DBPORT | DB server port (optional, defaults to `3306`) | 3306
 | SECRET_KEY | Django secret key | very-secret-key
 | JWT_AUDIENCE |  Expected audience for JWT tokens | https://joladnijo.jmsz.hu/api/
-| JWT_KEYS | Full URL to `jwks.json` keys file | 
-| JWT_ISSUER | Expected JWT token issuer | 
+| JWT_KEYS | Full URL to `jwks.json` keys file | https://dev-ulmlyx6h.eu.auth0.com/.well-known/jwks.json
+| JWT_ISSUER | Expected JWT token issuer | https://dev-ulmlyx6h.eu.auth0.com/
 | JWT_ALGORITHM | Signing algorithm for JWT tokens, defaults to `RS256` | 
 
 ### MySQL

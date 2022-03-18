@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -88,16 +89,12 @@ WSGI_APPLICATION = 'joladnijo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-db_password = os.environ.get('DBPASSWORD')
-if not db_password:
-    raise ValueError('DBPASSWORD is not set.')
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.mysql',
         'NAME': 'joladnijo',
         'USER': 'svc_backend',
-        'PASSWORD': db_password,
+        'PASSWORD': os.environ['DBPASSWORD'],
         'HOST': os.environ.get('DBHOST', '127.0.0.1'),
         'PORT': os.environ.get('DBPORT', '3306'),
         'OPTIONS': {'charset': 'utf8mb4'},
@@ -121,6 +118,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.RemoteUserBackend',
 ]
 
 
@@ -148,17 +151,28 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# REST Framework
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
         'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
         'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',  # TODO: törölni majd
-    ],
-    'DEFAULT_PARSER_CLASSES': [
-        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    ],
+    ),
+    'DEFAULT_PARSER_CLASSES': ('djangorestframework_camel_case.parser.CamelCaseJSONParser',),
+}
+
+JWT_AUTH = {
+    'JWT_PAYLOAD_GET_USERNAME_HANDLER': 'joladnijo.auth0.jwt_get_username_from_payload_handler',
+    'JWT_DECODE_HANDLER': 'joladnijo.auth0.jwt_decode_token',
+    'JWT_ALGORITHM': os.environ.get('JWT_ALGORITHM', 'RS256'),
+    'JWT_AUDIENCE': os.environ['JWT_AUDIENCE'],
+    'JWT_ISSUER': os.environ['JWT_ISSUER'],
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
 
 SIMPLE_HISTORY_FILEFIELD_TO_CHARFIELD = True

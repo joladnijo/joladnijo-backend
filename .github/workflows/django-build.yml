@@ -57,6 +57,9 @@ jobs:
           DBHOST: 127.0.0.1
           DBPASSWORD: joladnijo
           SECRET_KEY: "secret-key-for-build-pipeline"
+          JWT_AUDIENCE: https://joladnijo.jmsz.hu/api/
+          JWT_KEYS: https://dev-ulmlyx6h.eu.auth0.com/.well-known/jwks.json
+          JWT_ISSUER: https://dev-ulmlyx6h.eu.auth0.com/
       - name: Verify that Django is running
         run: |
               python manage.py runserver &
@@ -69,6 +72,9 @@ jobs:
           DBHOST: 127.0.0.1
           DBPASSWORD: joladnijo
           SECRET_KEY: "secret-key-for-build-pipeline" 
+          JWT_AUDIENCE: https://joladnijo.jmsz.hu/api/
+          JWT_KEYS: https://dev-ulmlyx6h.eu.auth0.com/.well-known/jwks.json
+          JWT_ISSUER: https://dev-ulmlyx6h.eu.auth0.com/
     
   build-docker-image:
     runs-on: ubuntu-latest

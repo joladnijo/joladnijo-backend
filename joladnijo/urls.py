@@ -29,6 +29,7 @@ router.register(r'aid-centers', views.AidCenterViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('auth0.urls')),  # Only for testing auth0
     # TODO: FE tesztelés után törölni innentől
     path('test', views.test),
     path('test/400', views.handle_400),

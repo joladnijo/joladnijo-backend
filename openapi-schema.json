@@ -651,14 +651,6 @@
             "type": "string",
             "nullable": true
           },
-          "money_accepted": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "money_description": {
-            "type": "string",
-            "maxLength": 1023
-          },
           "campaign_ending_on": {
             "type": "string",
             "format": "date",

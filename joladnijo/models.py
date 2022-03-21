@@ -60,8 +60,6 @@ class AidCenter(BaseModel, NoteableModel):
             ('denied', 'denied'),
         ),
     )
-    money_accepted = models.BooleanField(blank=True, null=True)
-    money_description = models.TextField(max_length=1023, blank=True)
     campaign_ending_on = models.DateField(blank=True, null=True)
     history = HistoricalRecords()
 

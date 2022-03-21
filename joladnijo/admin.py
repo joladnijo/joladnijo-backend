@@ -50,7 +50,7 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
     default_zoom = 7
     fieldsets = (
         (
-            'Basic info',
+            'Alap infók',
             {
                 'fields': (
                     ('name', 'slug'),
@@ -60,7 +60,7 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
             },
         ),
         (
-            'Location',
+            'Helyszín',
             {
                 'fields': (
                     'country_code',
@@ -71,7 +71,7 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
             },
         ),
         (
-            'Other',
+            'Egyéb',
             {
                 'fields': (
                     'campaign_ending_on',
@@ -84,7 +84,7 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
     inlines = [AidCenterContactInline]
 
     @admin.display(
-        description='Organization',
+        description='Szervezet',
         ordering='name',
     )
     def organization_link(self, obj):
@@ -158,14 +158,14 @@ class AssetRequestAdmin(SimpleHistoryAdmin):
     list_display = ['name', 'aid_center_link', 'is_urgent', 'status']
     list_filter = ['type', 'is_urgent', 'status', 'aid_center']
     fields = (
-        ('name', 'icon'),
+        'name',
         'type',
         'aid_center',
         ('status', 'is_urgent'),
     )
 
     @admin.display(
-        description='Aid center',
+        description='Gyűjtőhely',
         ordering='name',
     )
     def aid_center_link(self, obj):

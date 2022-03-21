@@ -16,19 +16,20 @@ class BaseModel(models.Model):
 
 
 class NoteableModel(models.Model):
-    note = models.TextField(max_length=255, blank=True)
+    note = models.TextField(verbose_name='Megjegyzések', max_length=255, blank=True)
 
     class Meta:
         abstract = True
 
 
 class Organization(BaseModel, NoteableModel):
-    name = models.CharField(max_length=255, blank=False, unique=True)
+    name = models.CharField(verbose_name='Név', max_length=255, blank=False, unique=True)
     slug = models.SlugField(max_length=255, blank=False, unique=True)
     history = HistoricalRecords()
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
-        pass
+        verbose_name = 'Szervezet'
+        verbose_name_plural = 'Szervezetek'
 
     def __str__(self) -> str:
         return self.name
@@ -41,16 +42,17 @@ def _iterable_pair(i):
 
 
 class AidCenter(BaseModel, NoteableModel):
-    name = models.CharField(max_length=255, blank=False, unique=True)
+    name = models.CharField(verbose_name='Név', max_length=255, blank=False, unique=True)
     slug = models.SlugField(max_length=255, blank=False, unique=True)
-    photo = models.FileField(max_length=255, blank=True, upload_to='aidcenter-photos')
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    country_code = models.CharField(max_length=5, blank=False)
-    postal_code = models.CharField(max_length=10, blank=False)
-    city = models.CharField(max_length=50, blank=False)
-    address = models.CharField(max_length=255, blank=False)
-    geo_location = gis_models.PointField(blank=True, null=True)
+    photo = models.FileField(verbose_name='Kép', max_length=255, blank=True, upload_to='aidcenter-photos')
+    organization = models.ForeignKey(Organization, verbose_name='Szervezet', on_delete=models.CASCADE)
+    country_code = models.CharField(verbose_name='Ország', max_length=5, blank=False)
+    postal_code = models.CharField(verbose_name='Irányítószám', max_length=10, blank=False)
+    city = models.CharField(verbose_name='Település', max_length=50, blank=False)
+    address = models.CharField(verbose_name='Cím', max_length=255, blank=False)
+    geo_location = gis_models.PointField(verbose_name='Koordináták', blank=True, null=True)
     call_required = models.CharField(
+        verbose_name='Hívás szükséges?',
         max_length=20,
         blank=True,
         null=True,
@@ -60,11 +62,12 @@ class AidCenter(BaseModel, NoteableModel):
             ('denied', 'denied'),
         ),
     )
-    campaign_ending_on = models.DateField(blank=True, null=True)
+    campaign_ending_on = models.DateField(verbose_name='Gyűjtés vége', blank=True, null=True)
     history = HistoricalRecords()
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
-        pass
+        verbose_name = 'Gyűjtőhely'
+        verbose_name_plural = 'Gyűjtőhelyek'
 
     def assets_requested(self):
         return self.assetrequest_set.requested()
@@ -123,17 +126,22 @@ class AidCenter(BaseModel, NoteableModel):
 
 
 class Contact(BaseModel, NoteableModel):
-    name = models.CharField(max_length=255, blank=False)
-    email = models.EmailField(max_length=255, blank=False)
-    phone = models.CharField(max_length=20, blank=True)
-    facebook = models.URLField(max_length=255, blank=True)
-    url = models.URLField(max_length=255, blank=True)
-    organization = models.OneToOneField(Organization, on_delete=models.CASCADE, blank=True, null=True)
-    aid_center = models.OneToOneField(AidCenter, on_delete=models.CASCADE, blank=True, null=True)
+    name = models.CharField(verbose_name='Név', max_length=255, blank=False)
+    email = models.EmailField(verbose_name='E-mail cím', max_length=255, blank=False)
+    phone = models.CharField(verbose_name='Telefonszám', max_length=20, blank=True)
+    facebook = models.URLField(verbose_name='Facebook profil', max_length=255, blank=True)
+    url = models.URLField(verbose_name='Egyéb url', max_length=255, blank=True)
+    organization = models.OneToOneField(
+        Organization, verbose_name='Szervezet', on_delete=models.CASCADE, blank=True, null=True
+    )
+    aid_center = models.OneToOneField(
+        AidCenter, verbose_name='Gyűjtőhely', on_delete=models.CASCADE, blank=True, null=True
+    )
     history = HistoricalRecords()
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
-        pass
+        verbose_name = 'Kapcsolattartó'
+        verbose_name_plural = 'Kapcsolattartók'
 
     def __str__(self) -> str:
         if self.phone == '':
@@ -148,12 +156,13 @@ class Contact(BaseModel, NoteableModel):
 
 
 class AssetCategory(BaseModel):
-    name = models.CharField(max_length=255, blank=False, unique=True)
-    icon = models.CharField(max_length=50, blank=True)
-    category = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(verbose_name='Név', max_length=255, blank=False, unique=True)
+    icon = models.CharField(verbose_name='Ikon', max_length=50, blank=True)
+    category = models.ForeignKey('self', verbose_name='Kategória', blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
-        verbose_name_plural = 'Asset categories'
+        verbose_name = 'Kategória'
+        verbose_name_plural = 'Kategóriák'
 
     def __str__(self) -> str:
         return self.name
@@ -162,6 +171,8 @@ class AssetCategory(BaseModel):
 class AssetType(AssetCategory):
     class Meta:
         proxy = True
+        verbose_name = 'Típus'
+        verbose_name_plural = 'Típusok'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -191,24 +202,26 @@ class AssetRequest(BaseModel, NoteableModel):
 
     objects = AssetRequestManager()
 
-    name = models.CharField(max_length=255, blank=False)
-    type = models.ForeignKey(AssetType, blank=True, null=True, on_delete=models.SET_NULL)
-    aid_center = models.ForeignKey(AidCenter, on_delete=models.CASCADE, blank=False)
-    is_urgent = models.BooleanField()
+    name = models.CharField(verbose_name='Név', max_length=255, blank=False)
+    type = models.ForeignKey(AssetType, verbose_name='Típus', blank=True, null=True, on_delete=models.SET_NULL)
+    aid_center = models.ForeignKey(AidCenter, verbose_name='Gyűjtőhely', on_delete=models.CASCADE, blank=False)
+    is_urgent = models.BooleanField(verbose_name='Sürgős')
     status = models.CharField(
+        verbose_name='Státusz',
         max_length=20,
         blank=False,
         default=STATUS_REQUESTED,
         choices=(
-            (STATUS_REQUESTED, 'requested'),
-            (STATUS_FULFILLED, 'fulfilled'),
-            (STATUS_OVERLOADED, 'overloaded'),
+            (STATUS_REQUESTED, 'szükség van rá'),
+            (STATUS_FULFILLED, 'van elég'),
+            (STATUS_OVERLOADED, 'túl sok van'),
         ),
     )
     history = HistoricalRecords()
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
-        pass
+        verbose_name = 'Adomány'
+        verbose_name_plural = 'Adományok'
 
     def __str__(self) -> str:
         return self.name

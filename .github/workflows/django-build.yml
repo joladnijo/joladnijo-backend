@@ -74,7 +74,12 @@ jobs:
       - name: Verify that Django is running
         run: |
           python manage.py runserver &
-          [[ `curl -s -I http://127.0.0.1:8000/admin/login/?next=/admin/ | grep HTTP/1.1 | awk {'print $2'}` -ne "200" ]] && exit 1
+          STATUS=`curl -s -I http://127.0.0.1:8000/admin/login/?next=/admin/ | grep HTTP/1.1 | awk {'print $2'}`
+          if [ $STATUS -ne "200" ]
+          then
+              echo "Status: $STATUS"
+              exit 1
+          fi
         env:
           DBHOST: 127.0.0.1
           DBPASSWORD: joladnijo
@@ -86,7 +91,12 @@ jobs:
       - name: Check if need to commit schema changes
         run: |
           make schema
-          [[ `git status --porcelain` ]] && exit 1
+          STATUS=`git status --porcelain`
+          if [[ $STATUS ]]
+          then
+            echo $STATUS
+            exit 1
+          fi
         env:
           DBHOST: 127.0.0.1
           DBPASSWORD: joladnijo

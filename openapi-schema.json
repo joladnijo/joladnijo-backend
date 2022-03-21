@@ -399,7 +399,7 @@
                   "format": "uuid",
                   "readOnly": true
                 },
-                "category": {
+                "type": {
                   "type": "object",
                   "properties": {
                     "id": {
@@ -407,21 +407,30 @@
                       "format": "uuid",
                       "readOnly": true
                     },
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "readOnly": true
+                        },
+                        "icon": {
+                          "type": "string",
+                          "readOnly": true
+                        }
+                      }
+                    },
                     "name": {
                       "type": "string",
-                      "maxLength": 255
+                      "readOnly": true
                     },
                     "icon": {
                       "type": "string",
-                      "maxLength": 50
-                    },
-                    "parent": {
-                      "type": "string",
-                      "nullable": true
+                      "readOnly": true
                     }
                   },
                   "required": [
-                    "name"
+                    "category"
                   ]
                 },
                 "note": {
@@ -431,10 +440,6 @@
                 "name": {
                   "type": "string",
                   "maxLength": 255
-                },
-                "icon": {
-                  "type": "string",
-                  "maxLength": 50
                 },
                 "is_urgent": {
                   "type": "boolean"
@@ -449,7 +454,7 @@
                 }
               },
               "required": [
-                "category",
+                "type",
                 "name",
                 "is_urgent"
               ]
@@ -466,7 +471,7 @@
                   "format": "uuid",
                   "readOnly": true
                 },
-                "category": {
+                "type": {
                   "type": "object",
                   "properties": {
                     "id": {
@@ -474,21 +479,30 @@
                       "format": "uuid",
                       "readOnly": true
                     },
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "readOnly": true
+                        },
+                        "icon": {
+                          "type": "string",
+                          "readOnly": true
+                        }
+                      }
+                    },
                     "name": {
                       "type": "string",
-                      "maxLength": 255
+                      "readOnly": true
                     },
                     "icon": {
                       "type": "string",
-                      "maxLength": 50
-                    },
-                    "parent": {
-                      "type": "string",
-                      "nullable": true
+                      "readOnly": true
                     }
                   },
                   "required": [
-                    "name"
+                    "category"
                   ]
                 },
                 "note": {
@@ -498,10 +512,6 @@
                 "name": {
                   "type": "string",
                   "maxLength": 255
-                },
-                "icon": {
-                  "type": "string",
-                  "maxLength": 50
                 },
                 "is_urgent": {
                   "type": "boolean"
@@ -516,7 +526,7 @@
                 }
               },
               "required": [
-                "category",
+                "type",
                 "name",
                 "is_urgent"
               ]
@@ -533,7 +543,7 @@
                   "format": "uuid",
                   "readOnly": true
                 },
-                "category": {
+                "type": {
                   "type": "object",
                   "properties": {
                     "id": {
@@ -541,21 +551,30 @@
                       "format": "uuid",
                       "readOnly": true
                     },
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "readOnly": true
+                        },
+                        "icon": {
+                          "type": "string",
+                          "readOnly": true
+                        }
+                      }
+                    },
                     "name": {
                       "type": "string",
-                      "maxLength": 255
+                      "readOnly": true
                     },
                     "icon": {
                       "type": "string",
-                      "maxLength": 50
-                    },
-                    "parent": {
-                      "type": "string",
-                      "nullable": true
+                      "readOnly": true
                     }
                   },
                   "required": [
-                    "name"
+                    "category"
                   ]
                 },
                 "note": {
@@ -565,10 +584,6 @@
                 "name": {
                   "type": "string",
                   "maxLength": 255
-                },
-                "icon": {
-                  "type": "string",
-                  "maxLength": 50
                 },
                 "is_urgent": {
                   "type": "boolean"
@@ -583,7 +598,7 @@
                 }
               },
               "required": [
-                "category",
+                "type",
                 "name",
                 "is_urgent"
               ]

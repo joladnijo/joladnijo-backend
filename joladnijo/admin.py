@@ -120,9 +120,7 @@ class ContactAdmin(SimpleHistoryAdmin):
 @admin.register(models.AssetCategory)
 class AssetCategoryAdmin(admin.ModelAdmin):
     list_display = ['name']
-    fields = (
-        ('name', 'icon'),
-    )
+    fields = (('name', 'icon'),)
 
     def get_queryset(self, request):
         return super(AssetCategoryAdmin, self).get_queryset(request).filter(category__isnull=True)

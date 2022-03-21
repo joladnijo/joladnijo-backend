@@ -33,6 +33,11 @@ jobs:
       - name: Run typecheck (mypy)
         run: make typing
 
+      - name: Check if need to commit schema changes
+        run: |
+          make schema
+          [[ `git status --porcelain` ]] && exit 1
+
   runserver:
     runs-on: ubuntu-latest
     needs:
@@ -74,11 +79,7 @@ jobs:
       - name: Verify that Django is running
         run: |
           python manage.py runserver &
-          STATUS=`curl -s -I http://127.0.0.1:8000/admin/login/?next=/admin/ | grep HTTP/1.1 | awk {'print $2'}`
-          if [ $STATUS -ne "200" ]
-          then
-              exit 1
-          fi
+          [[ `curl -s -I http://127.0.0.1:8000/admin/login/?next=/admin/ | grep HTTP/1.1 | awk {'print $2'}` -ne "200" ]] && exit 1
         env:
           DBHOST: 127.0.0.1
           DBPASSWORD: joladnijo

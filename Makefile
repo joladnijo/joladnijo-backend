@@ -2,6 +2,9 @@ runserver:
 	docker-compose up -d mysql
 	DBPASSWORD=testsvcpassword SECRET_KEY=verysecretkey APP_DEBUG=True ./manage.py runserver
 
+schema:
+	python manage.py generateschema --format openapi-json --file openapi-schema.json
+
 install:
 	pip install -r requirements.txt
 

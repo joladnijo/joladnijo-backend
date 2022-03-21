@@ -39,4 +39,5 @@ tomli==2.0.1
 types-requests==2.27.12
 types-urllib3==1.26.11
 typing_extensions==4.1.1
+uritemplate==4.1.1
 urllib3==1.25.11

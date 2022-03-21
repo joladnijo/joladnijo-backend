@@ -2,34 +2,41 @@ name: Django Build
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   tests:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
+
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
       - name: Run formatter (black)
         run: make black
+
       - name: Run linter (flake8)
         run: make flake
+
       - name: Run typecheck (mypy)
         run: make typing
-  
+
   runserver:
     runs-on: ubuntu-latest
-    needs: [tests]
+    needs:
+      - tests
     services:
       mysql:
         image: mysql:5.7
@@ -38,71 +45,99 @@ jobs:
           MYSQL_ROOT_PASSWORD: joladnijo
           MYSQL_USER: svc_backend
           MYSQL_PASSWORD: joladnijo
-        ports: ["3306:3306"]
-
+        ports:
+          - 3306:3306
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
+
       - name: Install Dependencies
         run: |
           sudo apt-get install binutils libproj-dev gdal-bin -y
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
       - name: Run Migrations
         run: python manage.py migrate
         env:
           DBHOST: 127.0.0.1
           DBPASSWORD: joladnijo
-          SECRET_KEY: "secret-key-for-build-pipeline"
+          SECRET_KEY: secret-key-for-build-pipeline
           JWT_AUDIENCE: https://joladnijo.jmsz.hu/api/
           JWT_KEYS: https://dev-ulmlyx6h.eu.auth0.com/.well-known/jwks.json
           JWT_ISSUER: https://dev-ulmlyx6h.eu.auth0.com/
+
       - name: Verify that Django is running
         run: |
-              python manage.py runserver &
-              STATUS=`curl -s -I http://127.0.0.1:8000/admin/login/?next=/admin/ | grep HTTP/1.1 | awk {'print $2'}`
-              if [ $STATUS -ne "200" ] 
-              then
-                  exit 1
-              fi
+          python manage.py runserver &
+          STATUS=`curl -s -I http://127.0.0.1:8000/admin/login/?next=/admin/ | grep HTTP/1.1 | awk {'print $2'}`
+          if [ $STATUS -ne "200" ]
+          then
+              echo "Status: $STATUS"
+              exit 1
+          fi
         env:
           DBHOST: 127.0.0.1
           DBPASSWORD: joladnijo
-          SECRET_KEY: "secret-key-for-build-pipeline" 
+          SECRET_KEY: secret-key-for-build-pipeline
           JWT_AUDIENCE: https://joladnijo.jmsz.hu/api/
           JWT_KEYS: https://dev-ulmlyx6h.eu.auth0.com/.well-known/jwks.json
           JWT_ISSUER: https://dev-ulmlyx6h.eu.auth0.com/
-    
+
+      - name: Check if need to commit schema changes
+        run: |
+          make schema
+          STATUS=`git status --porcelain`
+          if [[ $STATUS ]]
+          then
+            echo $STATUS
+            exit 1
+          fi
+        env:
+          DBHOST: 127.0.0.1
+          DBPASSWORD: joladnijo
+          SECRET_KEY: secret-key-for-build-pipeline
+          JWT_AUDIENCE: https://joladnijo.jmsz.hu/api/
+          JWT_KEYS: https://dev-ulmlyx6h.eu.auth0.com/.well-known/jwks.json
+          JWT_ISSUER: https://dev-ulmlyx6h.eu.auth0.com/
+
   build-docker-image:
     runs-on: ubuntu-latest
-    needs: [runserver]
+    needs:
+      - runserver
     if: ${{ github.ref == 'refs/heads/main' }}
 
     steps:
-    - uses: actions/checkout@v2    
-    - name: Build Docker image
-      run: docker build -t image .
-    - name: Log into registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-    - name: Push image
-      run: |
-        TAG=1.0.${{ github.run_number }}
-        IMAGE_ID=ghcr.io/${{ github.repository }}
-        docker tag image $IMAGE_ID:$TAG
-        docker push $IMAGE_ID:$TAG
-        docker tag image $IMAGE_ID:latest
-        docker push $IMAGE_ID:latest
+      - uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t image .
+
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
+        run: |
+          TAG=1.0.${{ github.run_number }}
+          IMAGE_ID=ghcr.io/${{ github.repository }}
+          docker tag image $IMAGE_ID:$TAG
+          docker push $IMAGE_ID:$TAG
+          docker tag image $IMAGE_ID:latest
+          docker push $IMAGE_ID:latest
 
   deploy-staging:
     runs-on: ubuntu-latest
-    needs: [build-docker-image]
+    needs:
+      - build-docker-image
     if: ${{ github.ref == 'refs/heads/main' }}
-    
+
     steps:
       - uses: actions/checkout@v2
+
       - name: executing remote ssh commands using password
         uses: fifsky/ssh-action@master
         with:

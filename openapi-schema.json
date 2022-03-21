@@ -1,0 +1,667 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "paths": {
+    "/api/public": {
+      "get": {
+        "operationId": "listpublics",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/private": {
+      "get": {
+        "operationId": "listprivates",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/restricted": {
+      "get": {
+        "operationId": "listrestricteds",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/aid-centers/": {
+      "get": {
+        "operationId": "listAidCenters",
+        "description": "This viewset automatically provides `list`, `create`, `retrieve`,\n`update` and `destroy` actions.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AidCenter"
+                  }
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "aid-centers"
+        ]
+      },
+      "post": {
+        "operationId": "createAidCenter",
+        "description": "This viewset automatically provides `list`, `create`, `retrieve`,\n`update` and `destroy` actions.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AidCenter"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AidCenter"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "aid-centers"
+        ]
+      }
+    },
+    "/aid-centers/{slug}/": {
+      "get": {
+        "operationId": "retrieveAidCenter",
+        "description": "This viewset automatically provides `list`, `create`, `retrieve`,\n`update` and `destroy` actions.",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AidCenter"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "aid-centers"
+        ]
+      },
+      "put": {
+        "operationId": "updateAidCenter",
+        "description": "This viewset automatically provides `list`, `create`, `retrieve`,\n`update` and `destroy` actions.",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AidCenter"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AidCenter"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "aid-centers"
+        ]
+      },
+      "patch": {
+        "operationId": "partialUpdateAidCenter",
+        "description": "This viewset automatically provides `list`, `create`, `retrieve`,\n`update` and `destroy` actions.",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AidCenter"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AidCenter"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "aid-centers"
+        ]
+      },
+      "delete": {
+        "operationId": "destroyAidCenter",
+        "description": "This viewset automatically provides `list`, `create`, `retrieve`,\n`update` and `destroy` actions.",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "aid-centers"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AidCenter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "organization": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "readOnly": true
+              },
+              "contact": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "readOnly": true
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 255
+                  },
+                  "name": {
+                    "type": "string",
+                    "maxLength": 255
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "maxLength": 255
+                  },
+                  "phone": {
+                    "type": "string",
+                    "maxLength": 20
+                  },
+                  "facebook": {
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 255,
+                    "pattern": "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\]|([a-z¡-￿0-9](?:[a-z¡-￿0-9-]{0,61}[a-z¡-￿0-9])?(?:\\.(?!-)[a-z¡-￿0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z¡-￿-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\.?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 255,
+                    "pattern": "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\]|([a-z¡-￿0-9](?:[a-z¡-￿0-9-]{0,61}[a-z¡-￿0-9])?(?:\\.(?!-)[a-z¡-￿0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z¡-￿-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\.?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email"
+                ]
+              },
+              "note": {
+                "type": "string",
+                "maxLength": 255
+              },
+              "name": {
+                "type": "string",
+                "maxLength": 255
+              },
+              "slug": {
+                "type": "string",
+                "maxLength": 255,
+                "pattern": "^[-a-zA-Z0-9_]+$"
+              }
+            },
+            "required": [
+              "contact",
+              "name",
+              "slug"
+            ]
+          },
+          "contact": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "readOnly": true
+              },
+              "note": {
+                "type": "string",
+                "maxLength": 255
+              },
+              "name": {
+                "type": "string",
+                "maxLength": 255
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "maxLength": 255
+              },
+              "phone": {
+                "type": "string",
+                "maxLength": 20
+              },
+              "facebook": {
+                "type": "string",
+                "format": "uri",
+                "maxLength": 255,
+                "pattern": "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\]|([a-z¡-￿0-9](?:[a-z¡-￿0-9-]{0,61}[a-z¡-￿0-9])?(?:\\.(?!-)[a-z¡-￿0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z¡-￿-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\.?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "maxLength": 255,
+                "pattern": "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\]|([a-z¡-￿0-9](?:[a-z¡-￿0-9-]{0,61}[a-z¡-￿0-9])?(?:\\.(?!-)[a-z¡-￿0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z¡-￿-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\.?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+              }
+            },
+            "required": [
+              "name",
+              "email"
+            ]
+          },
+          "geo_location": {
+            "type": "object"
+          },
+          "assets_requested": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "readOnly": true
+                },
+                "category": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "readOnly": true
+                    },
+                    "name": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "icon": {
+                      "type": "string",
+                      "maxLength": 50
+                    },
+                    "parent": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                },
+                "note": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "name": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "icon": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "is_urgent": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "enum": [
+                    "requested",
+                    "fulfilled",
+                    "overloaded"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "category",
+                "name",
+                "is_urgent"
+              ]
+            },
+            "readOnly": true
+          },
+          "assets_fulfilled": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "readOnly": true
+                },
+                "category": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "readOnly": true
+                    },
+                    "name": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "icon": {
+                      "type": "string",
+                      "maxLength": 50
+                    },
+                    "parent": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                },
+                "note": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "name": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "icon": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "is_urgent": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "enum": [
+                    "requested",
+                    "fulfilled",
+                    "overloaded"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "category",
+                "name",
+                "is_urgent"
+              ]
+            },
+            "readOnly": true
+          },
+          "assets_overloaded": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "readOnly": true
+                },
+                "category": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "readOnly": true
+                    },
+                    "name": {
+                      "type": "string",
+                      "maxLength": 255
+                    },
+                    "icon": {
+                      "type": "string",
+                      "maxLength": 50
+                    },
+                    "parent": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                },
+                "note": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "name": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "icon": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "is_urgent": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "enum": [
+                    "requested",
+                    "fulfilled",
+                    "overloaded"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "category",
+                "name",
+                "is_urgent"
+              ]
+            },
+            "readOnly": true
+          },
+          "feed": {
+            "type": "object",
+            "readOnly": true
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "slug": {
+            "type": "string",
+            "maxLength": 255,
+            "pattern": "^[-a-zA-Z0-9_]+$"
+          },
+          "photo": {
+            "type": "string",
+            "format": "binary"
+          },
+          "country_code": {
+            "type": "string",
+            "maxLength": 5
+          },
+          "postal_code": {
+            "type": "string",
+            "maxLength": 10
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "call_required": {
+            "enum": [
+              "required",
+              "suggested",
+              "denied"
+            ],
+            "type": "string",
+            "nullable": true
+          },
+          "money_accepted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "money_description": {
+            "type": "string",
+            "maxLength": 1023
+          },
+          "campaign_ending_on": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "required": [
+          "organization",
+          "contact",
+          "geo_location",
+          "name",
+          "slug",
+          "country_code",
+          "postal_code",
+          "city",
+          "address"
+        ]
+      }
+    }
+  }
+}

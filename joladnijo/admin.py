@@ -71,19 +71,10 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
             },
         ),
         (
-            'Needs',
-            {
-                'fields': (
-                    'money_accepted',
-                    'money_description',
-                    'campaign_ending_on',
-                ),
-            },
-        ),
-        (
             'Other',
             {
                 'fields': (
+                    'campaign_ending_on',
                     'call_required',
                     'note',
                 ),

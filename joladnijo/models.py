@@ -10,7 +10,6 @@ from simple_history.models import HistoricalRecords
 
 class BaseModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    history = HistoricalRecords(inherit=True)
 
     class Meta:
         abstract = True
@@ -26,6 +25,7 @@ class NoteableModel(models.Model):
 class Organization(BaseModel, NoteableModel):
     name = models.CharField(max_length=255, blank=False, unique=True)
     slug = models.SlugField(max_length=255, blank=False, unique=True)
+    history = HistoricalRecords()
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
         pass
@@ -63,6 +63,7 @@ class AidCenter(BaseModel, NoteableModel):
     money_accepted = models.BooleanField(blank=True, null=True)
     money_description = models.TextField(max_length=1023, blank=True)
     campaign_ending_on = models.DateField(blank=True, null=True)
+    history = HistoricalRecords()
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
         pass
@@ -131,6 +132,7 @@ class Contact(BaseModel, NoteableModel):
     url = models.URLField(max_length=255, blank=True)
     organization = models.OneToOneField(Organization, on_delete=models.CASCADE, blank=True, null=True)
     aid_center = models.OneToOneField(AidCenter, on_delete=models.CASCADE, blank=True, null=True)
+    history = HistoricalRecords()
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
         pass
@@ -149,20 +151,28 @@ class Contact(BaseModel, NoteableModel):
 
 class AssetCategory(BaseModel):
     name = models.CharField(max_length=255, blank=False, unique=True)
-    parent = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
     icon = models.CharField(max_length=50, blank=True)
+    category = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name_plural = 'Asset categories'
 
     def __str__(self) -> str:
-        if self.parent is not None:
-            return '%s (%s)' % (self.name, self.parent.name)
         return self.name
 
-    def clean(self):
-        if self.parent == self:
-            raise RecursionError("An asset category can't be its own parent")
+
+class AssetType(AssetCategory):
+    class Meta:
+        proxy = True
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__class__ = AssetType
+
+    def __str__(self) -> str:
+        if self.category is not None:
+            return '%s (%s)' % (self.name, self.category.name)
+        return self.name
 
 
 class AssetRequestManager(models.Manager):
@@ -184,8 +194,7 @@ class AssetRequest(BaseModel, NoteableModel):
     objects = AssetRequestManager()
 
     name = models.CharField(max_length=255, blank=False)
-    category = models.ForeignKey(AssetCategory, on_delete=models.CASCADE)
-    icon = models.CharField(max_length=50, blank=True)
+    type = models.ForeignKey(AssetType, blank=True, null=True, on_delete=models.SET_NULL)
     aid_center = models.ForeignKey(AidCenter, on_delete=models.CASCADE, blank=False)
     is_urgent = models.BooleanField()
     status = models.CharField(
@@ -198,6 +207,7 @@ class AssetRequest(BaseModel, NoteableModel):
             (STATUS_OVERLOADED, 'overloaded'),
         ),
     )
+    history = HistoricalRecords()
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
         pass

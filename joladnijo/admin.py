@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from django.contrib.gis import admin as gis_admin
 from django.urls import reverse
@@ -117,30 +118,59 @@ class ContactAdmin(SimpleHistoryAdmin):
 
 
 @admin.register(models.AssetCategory)
-class AssetCategoryAdmin(SimpleHistoryAdmin):
-    list_display = ['name', 'parent']
-    list_filter = ['parent']
+class AssetCategoryAdmin(admin.ModelAdmin):
+    list_display = ['name']
     fields = (
         ('name', 'icon'),
-        'parent',
     )
 
-    def render_change_form(self, request, context, *args, **kwargs):
-        obj = kwargs['obj']
-        parent_qs = models.AssetCategory.objects.filter(parent__isnull=True)
-        if obj is not None:
-            parent_qs = parent_qs.exclude(id=obj.id)
-        context['adminform'].form.fields['parent'].queryset = parent_qs
-        return super(AssetCategoryAdmin, self).render_change_form(request, context, *args, **kwargs)
+    def get_queryset(self, request):
+        return super(AssetCategoryAdmin, self).get_queryset(request).filter(category__isnull=True)
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return obj is not None and obj.assetcategory_set.count() == 0
+
+
+class AssetTypeForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['category'].required = True
+
+    class Meta:
+        model = models.AssetType
+        fields = ['name', 'icon', 'category']
+
+
+@admin.register(models.AssetType)
+class AssetTypeAdmin(admin.ModelAdmin):
+    form = AssetTypeForm
+    list_display = ['name', 'category']
+    list_filter = ['category']
+    fields = (
+        ('name', 'icon'),
+        'category',
+    )
+
+    def get_queryset(self, request):
+        return super(AssetTypeAdmin, self).get_queryset(request).filter(category__isnull=False)
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return obj is not None and obj.assetrequest_set.count() == 0
 
 
 @admin.register(models.AssetRequest)
 class AssetRequestAdmin(SimpleHistoryAdmin):
     list_display = ['name', 'aid_center_link', 'is_urgent', 'status']
-    list_filter = ['category', 'is_urgent', 'status', 'aid_center']
+    list_filter = ['type', 'is_urgent', 'status', 'aid_center']
     fields = (
         ('name', 'icon'),
-        'category',
+        'type',
         'aid_center',
         ('status', 'is_urgent'),
     )

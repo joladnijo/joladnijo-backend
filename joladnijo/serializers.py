@@ -20,11 +20,21 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class AssetCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AssetCategory
+        fields = ['name', 'icon']
+        read_only_fields = ['name', 'icon']
+
+
+class AssetTypeSerializer(serializers.ModelSerializer):
+    category = AssetCategorySerializer()
+
+    class Meta:
+        model = models.AssetType
         fields = '__all__'
+        read_only_fields = ['name', 'icon', 'category']
 
 
 class AssetRequestSerializer(serializers.ModelSerializer):
-    category = AssetCategorySerializer()
+    type = AssetTypeSerializer()
 
     class Meta:
         model = models.AssetRequest

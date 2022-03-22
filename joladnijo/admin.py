@@ -83,10 +83,7 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
     )
     inlines = [AidCenterContactInline]
 
-    @admin.display(
-        description='Szervezet',
-        ordering='name',
-    )
+    @admin.display(description='Szervezet', ordering='name')
     def organization_link(self, obj):
         url = reverse('admin:joladnijo_organization_change', args=[obj.organization.pk])
         return mark_safe('<a href="%s">%s</a>' % (url, obj.organization))
@@ -164,10 +161,32 @@ class AssetRequestAdmin(SimpleHistoryAdmin):
         ('status', 'is_urgent'),
     )
 
-    @admin.display(
-        description='Gyűjtőhely',
-        ordering='name',
+    @admin.display(description='Gyűjtőhely', ordering='name')
+    def aid_center_link(self, obj):
+        url = reverse('admin:joladnijo_aidcenter_change', args=[obj.aid_center.pk])
+        return mark_safe('<a href="%s">%s</a>' % (url, obj.aid_center))
+
+
+@admin.register(models.FeedItem)
+class FeedItemAdmin(admin.ModelAdmin):
+    list_display = ['timestamp', 'name', 'asset_request_link', 'aid_center_link', 'status_old', 'status_new']
+    list_filter = ['asset_request', 'aid_center']
+    fields = (
+        ('name', 'icon'),
+        'asset_request',
+        'aid_center',
+        'status_old',
+        'status_new',
+        'note',
     )
+    read_only_fields = ['timestamp']
+
+    @admin.display(description='Adomány', ordering='name')
+    def asset_request_link(self, obj):
+        url = reverse('admin:joladnijo_assetrequest_change', args=[obj.asset_request.pk])
+        return mark_safe('<a href="%s">%s</a>' % (url, obj.asset_request))
+
+    @admin.display(description='Gyűjtőhely', ordering='name')
     def aid_center_link(self, obj):
         url = reverse('admin:joladnijo_aidcenter_change', args=[obj.aid_center.pk])
         return mark_safe('<a href="%s">%s</a>' % (url, obj.aid_center))

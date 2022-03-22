@@ -41,6 +41,12 @@ class AssetRequestSerializer(serializers.ModelSerializer):
         exclude = ['aid_center']
 
 
+class FeedItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.FeedItem
+        exclude = ['aid_center']
+
+
 class AidCenterSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer()
     contact = ContactSerializer()
@@ -48,7 +54,7 @@ class AidCenterSerializer(serializers.ModelSerializer):
     assets_requested = AssetRequestSerializer(many=True, read_only=True)
     assets_fulfilled = AssetRequestSerializer(many=True, read_only=True)
     assets_overloaded = AssetRequestSerializer(many=True, read_only=True)
-    feed = serializers.JSONField(read_only=True)
+    feed = FeedItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.AidCenter

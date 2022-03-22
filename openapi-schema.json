@@ -606,7 +606,49 @@
             "readOnly": true
           },
           "feed": {
-            "type": "object",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "readOnly": true
+                },
+                "note": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "name": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "icon": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time",
+                  "readOnly": true
+                },
+                "status_old": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "status_new": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "asset_request": {
+                  "type": "string",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "name"
+              ]
+            },
             "readOnly": true
           },
           "note": {

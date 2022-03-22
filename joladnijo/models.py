@@ -1,10 +1,7 @@
-import re
 import uuid
-from itertools import tee
 
 from django.contrib.gis.db import models as gis_models
 from django.db import models
-from djangorestframework_camel_case.util import camelize_re, underscore_to_camel
 from simple_history.models import HistoricalRecords
 
 
@@ -33,12 +30,6 @@ class Organization(BaseModel, NoteableModel):
 
     def __str__(self) -> str:
         return self.name
-
-
-def _iterable_pair(i):
-    a, b = tee(i)
-    next(b, None)
-    return zip(a, b)
 
 
 class AidCenter(BaseModel, NoteableModel):
@@ -78,48 +69,8 @@ class AidCenter(BaseModel, NoteableModel):
     def assets_overloaded(self):
         return self.assetrequest_set.overloaded()
 
-    def _changes_of(self, history, obj):
-        changes = []
-        name = 'this'
-        if obj is not None:
-            name += '.%s[%s]' % obj
-        first = True
-        for pair in _iterable_pair(history.order_by('history_date').iterator()):
-            old, new = pair
-            if first:
-                changes.append(
-                    {
-                        'created': name,
-                        'date_time': new.history_date,
-                    }
-                )
-                first = False
-            delta = new.diff_against(old)
-            for change in delta.changes:
-                field = change.field
-                if '_' in field:
-                    field = re.sub(camelize_re, underscore_to_camel, field)
-                changes.append(
-                    {
-                        'changed': '%s.%s' % (name, field),
-                        'from': change.old,
-                        'to': change.new,
-                        'date_time': new.history_date,
-                    }
-                )
-        return changes
-
     def feed(self):
-        # TODO: ezt talán jó lenne valahogy gyorsítótárazni
-        # TODO: mi kell pontosan a feedbe: elég self és assetrequest?
-        changes = self._changes_of(self.history.all(), None)
-        for request in self.assetrequest_set.all():
-            changes += self._changes_of(request.history.all(), ('assetrequest', request.id))
-        changes += self._changes_of(self.organization.history.all(), ('organization', self.organization.id))
-        if hasattr(self, 'contact'):
-            changes += self._changes_of(self.contact.history.all(), ('contact', self.contact.id))
-        changes.sort(key=lambda c: c['date_time'], reverse=True)
-        return changes
+        return self.feeditem_set.all()
 
     def __str__(self) -> str:
         return '%s - %s (%s)' % (self.organization.name, self.name, self.city)
@@ -132,10 +83,10 @@ class Contact(BaseModel, NoteableModel):
     facebook = models.URLField(verbose_name='Facebook profil', max_length=255, blank=True)
     url = models.URLField(verbose_name='Egyéb url', max_length=255, blank=True)
     organization = models.OneToOneField(
-        Organization, verbose_name='Szervezet', on_delete=models.CASCADE, blank=True, null=True
+        Organization, verbose_name='Szervezet', blank=True, null=True, on_delete=models.CASCADE
     )
     aid_center = models.OneToOneField(
-        AidCenter, verbose_name='Gyűjtőhely', on_delete=models.CASCADE, blank=True, null=True
+        AidCenter, verbose_name='Gyűjtőhely', blank=True, null=True, on_delete=models.CASCADE
     )
     history = HistoricalRecords()
 
@@ -204,7 +155,7 @@ class AssetRequest(BaseModel, NoteableModel):
 
     name = models.CharField(verbose_name='Név', max_length=255, blank=False)
     type = models.ForeignKey(AssetType, verbose_name='Típus', blank=True, null=True, on_delete=models.SET_NULL)
-    aid_center = models.ForeignKey(AidCenter, verbose_name='Gyűjtőhely', on_delete=models.CASCADE, blank=False)
+    aid_center = models.ForeignKey(AidCenter, verbose_name='Gyűjtőhely', blank=False, on_delete=models.CASCADE)
     is_urgent = models.BooleanField(verbose_name='Sürgős')
     status = models.CharField(
         verbose_name='Státusz',
@@ -225,3 +176,20 @@ class AssetRequest(BaseModel, NoteableModel):
 
     def __str__(self) -> str:
         return self.name
+
+
+class FeedItem(BaseModel, NoteableModel):
+    name = models.CharField(verbose_name='Név', max_length=255, blank=False)
+    icon = models.CharField(verbose_name='Ikon', max_length=50, blank=True)
+    timestamp = models.DateTimeField(verbose_name='Időpont', auto_now_add=True)
+    asset_request = models.ForeignKey(
+        AssetRequest, verbose_name='Adomány', blank=True, null=True, on_delete=models.SET_NULL
+    )
+    aid_center = models.ForeignKey(AidCenter, verbose_name='Gyűjtőhely', blank=False, on_delete=models.CASCADE)
+    status_old = models.CharField(verbose_name='Korábbi állapot', max_length=255, blank=True)
+    status_new = models.CharField(verbose_name='Új állapot', max_length=255, blank=True)
+
+    class Meta(BaseModel.Meta, NoteableModel.Meta):
+        verbose_name = 'Változás'
+        verbose_name_plural = 'Változások'
+        ordering = ['-timestamp']

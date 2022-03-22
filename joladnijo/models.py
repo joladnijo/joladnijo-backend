@@ -174,6 +174,14 @@ class AssetRequest(BaseModel, NoteableModel):
         verbose_name = 'Adomány'
         verbose_name_plural = 'Adományok'
 
+    def icon(self):
+        if self.type is not None:
+            if self.type.icon is not None:
+                return self.type.icon
+            if self.type.category is not None:
+                return self.type.category.icon
+        return None
+
     def __str__(self) -> str:
         return self.name
 

@@ -9,6 +9,9 @@ services:
       DBHOST: mysql
       DBPORT: '3306'
       SECRET_KEY: 'very-secret-key'
+      JWT_AUDIENCE: https://joladnijo.jmsz.hu/api/
+      JWT_KEYS: https://dev-ulmlyx6h.eu.auth0.com/.well-known/jwks.json
+      JWT_ISSUER: https://dev-ulmlyx6h.eu.auth0.com/
     ports:
       - "8000:8000"
 
@@ -20,7 +23,9 @@ services:
       - mysql-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: testrootpassword
+      MYSQL_USER: svc_backend
       MYSQL_PASSWORD: testsvcpassword
+      MYSQL_DATABASE: joladnijo
     command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
 
 volumes:

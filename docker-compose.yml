@@ -17,11 +17,11 @@ services:
       JWT_ISSUER: https://dev-ulmlyx6h.eu.auth0.com/
     ports:
       - "8000:8000"
-    volumes:
-      - .:/code
 
   mysql:
-    image: mysql:5.7
+    build:
+      context: ./database/
+      dockerfile: Dockerfile
     ports:
       - "3306:3306"
     volumes:
@@ -31,7 +31,6 @@ services:
       MYSQL_USER: svc_backend
       MYSQL_PASSWORD: testsvcpassword
       MYSQL_DATABASE: joladnijo
-    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
 
 volumes:
   mysql-data:

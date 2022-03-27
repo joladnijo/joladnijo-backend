@@ -65,11 +65,17 @@ In the project folder issue the `migrate` command (with your venv activated)
 ```
 
 ### Start docker compose stack with MySQL database (dev mode)
+This'll build the application comntainer using development Dockerfile that'll contain all SDK's and libs to develop the application. Also, the application will run in DEBUG mode, meaning that application will watch file changes and restarts app to pick up latest changes.
 ```bash
 docker-compose up --build
 ```
 
 ### Start docker compose stack with MySQL database (production mode)
+This'll build the application container using production ready Dockerfile. Application will run in non-DEBUG mode (no file watching for changes)
 ```bash
-docker-compose -f docker-compose.prod.yml up --build
+make docker-compose-prod
+```
+To remove containers built in production mode:
+```
+make docker-compose-prod-down
 ```

@@ -41,6 +41,12 @@ class AssetRequestSerializer(serializers.ModelSerializer):
         model = models.AssetRequest
         exclude = ['aid_center']
 
+    def build_standard_field(self, field_name, model_field):
+        field_class, field_kwargs = super(AssetRequestSerializer, self).build_standard_field(field_name, model_field)
+        if field_name == 'status':
+            field_kwargs['required'] = True
+        return field_class, field_kwargs
+
 
 class FeedItemSerializer(serializers.ModelSerializer):
     class Meta:

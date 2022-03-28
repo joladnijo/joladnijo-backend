@@ -452,7 +452,8 @@
               },
               "required": [
                 "type",
-                "name"
+                "name",
+                "status"
               ]
             },
             "readOnly": true
@@ -520,7 +521,8 @@
               },
               "required": [
                 "type",
-                "name"
+                "name",
+                "status"
               ]
             },
             "readOnly": true
@@ -588,7 +590,8 @@
               },
               "required": [
                 "type",
-                "name"
+                "name",
+                "status"
               ]
             },
             "readOnly": true

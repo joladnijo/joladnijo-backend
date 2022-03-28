@@ -420,17 +420,17 @@
                         }
                       }
                     },
-                    "name": {
-                      "type": "string",
-                      "readOnly": true
-                    },
                     "icon": {
+                      "type": "string"
+                    },
+                    "name": {
                       "type": "string",
                       "readOnly": true
                     }
                   },
                   "required": [
-                    "category"
+                    "category",
+                    "icon"
                   ]
                 },
                 "note": {
@@ -441,22 +441,86 @@
                   "type": "string",
                   "maxLength": 255
                 },
-                "is_urgent": {
-                  "type": "boolean"
-                },
                 "status": {
                   "enum": [
                     "requested",
-                    "fulfilled",
-                    "overloaded"
+                    "urgent",
+                    "fulfilled"
                   ],
                   "type": "string"
                 }
               },
               "required": [
                 "type",
-                "name",
-                "is_urgent"
+                "name"
+              ]
+            },
+            "readOnly": true
+          },
+          "assets_urgent": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "readOnly": true
+                },
+                "type": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "readOnly": true
+                    },
+                    "category": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "readOnly": true
+                        },
+                        "icon": {
+                          "type": "string",
+                          "readOnly": true
+                        }
+                      }
+                    },
+                    "icon": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string",
+                      "readOnly": true
+                    }
+                  },
+                  "required": [
+                    "category",
+                    "icon"
+                  ]
+                },
+                "note": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "name": {
+                  "type": "string",
+                  "maxLength": 255
+                },
+                "status": {
+                  "enum": [
+                    "requested",
+                    "urgent",
+                    "fulfilled"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "name"
               ]
             },
             "readOnly": true
@@ -492,17 +556,17 @@
                         }
                       }
                     },
-                    "name": {
-                      "type": "string",
-                      "readOnly": true
-                    },
                     "icon": {
+                      "type": "string"
+                    },
+                    "name": {
                       "type": "string",
                       "readOnly": true
                     }
                   },
                   "required": [
-                    "category"
+                    "category",
+                    "icon"
                   ]
                 },
                 "note": {
@@ -513,94 +577,18 @@
                   "type": "string",
                   "maxLength": 255
                 },
-                "is_urgent": {
-                  "type": "boolean"
-                },
                 "status": {
                   "enum": [
                     "requested",
-                    "fulfilled",
-                    "overloaded"
+                    "urgent",
+                    "fulfilled"
                   ],
                   "type": "string"
                 }
               },
               "required": [
                 "type",
-                "name",
-                "is_urgent"
-              ]
-            },
-            "readOnly": true
-          },
-          "assets_overloaded": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string",
-                  "format": "uuid",
-                  "readOnly": true
-                },
-                "type": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "format": "uuid",
-                      "readOnly": true
-                    },
-                    "category": {
-                      "type": "object",
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "readOnly": true
-                        },
-                        "icon": {
-                          "type": "string",
-                          "readOnly": true
-                        }
-                      }
-                    },
-                    "name": {
-                      "type": "string",
-                      "readOnly": true
-                    },
-                    "icon": {
-                      "type": "string",
-                      "readOnly": true
-                    }
-                  },
-                  "required": [
-                    "category"
-                  ]
-                },
-                "note": {
-                  "type": "string",
-                  "maxLength": 255
-                },
-                "name": {
-                  "type": "string",
-                  "maxLength": 255
-                },
-                "is_urgent": {
-                  "type": "boolean"
-                },
-                "status": {
-                  "enum": [
-                    "requested",
-                    "fulfilled",
-                    "overloaded"
-                  ],
-                  "type": "string"
-                }
-              },
-              "required": [
-                "type",
-                "name",
-                "is_urgent"
+                "name"
               ]
             },
             "readOnly": true

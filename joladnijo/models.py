@@ -63,11 +63,11 @@ class AidCenter(BaseModel, NoteableModel):
     def assets_requested(self):
         return self.assetrequest_set.requested()
 
+    def assets_urgent(self):
+        return self.assetrequest_set.urgent()
+
     def assets_fulfilled(self):
         return self.assetrequest_set.fulfilled()
-
-    def assets_overloaded(self):
-        return self.assetrequest_set.overloaded()
 
     def feed(self):
         return self.feeditem_set.all()
@@ -109,7 +109,6 @@ class Contact(BaseModel, NoteableModel):
 class AssetCategory(BaseModel):
     name = models.CharField(verbose_name='Név', max_length=255, blank=False, unique=True)
     icon = models.CharField(verbose_name='Ikon', max_length=50, blank=True)
-    category = models.ForeignKey('self', verbose_name='Kategória', blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Kategória'
@@ -119,44 +118,42 @@ class AssetCategory(BaseModel):
         return self.name
 
 
-class AssetType(AssetCategory):
+class AssetType(BaseModel):
+    name = models.CharField(verbose_name='Név', max_length=255, blank=False, unique=True)
+    category = models.ForeignKey(AssetCategory, verbose_name='Kategória', blank=False, on_delete=models.CASCADE)
+
     class Meta:
-        proxy = True
         verbose_name = 'Típus'
         verbose_name_plural = 'Típusok'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__class__ = AssetType
+    def icon(self):
+        return self.category.icon
 
     def __str__(self) -> str:
-        if self.category is not None:
-            return '%s (%s)' % (self.name, self.category.name)
-        return self.name
+        return '%s (%s)' % (self.name, self.category.name)
 
 
 class AssetRequestManager(models.Manager):
     def requested(self):
         return self.filter(status=AssetRequest.STATUS_REQUESTED)
 
+    def urgent(self):
+        return self.filter(status=AssetRequest.STATUS_URGENT)
+
     def fulfilled(self):
         return self.filter(status=AssetRequest.STATUS_FULFILLED)
-
-    def overloaded(self):
-        return self.filter(status=AssetRequest.STATUS_OVERLOADED)
 
 
 class AssetRequest(BaseModel, NoteableModel):
     STATUS_REQUESTED = 'requested'
+    STATUS_URGENT = 'urgent'
     STATUS_FULFILLED = 'fulfilled'
-    STATUS_OVERLOADED = 'overloaded'
 
     objects = AssetRequestManager()
 
     name = models.CharField(verbose_name='Név', max_length=255, blank=False)
-    type = models.ForeignKey(AssetType, verbose_name='Típus', blank=True, null=True, on_delete=models.SET_NULL)
+    type = models.ForeignKey(AssetType, verbose_name='Típus', blank=False, on_delete=models.CASCADE)
     aid_center = models.ForeignKey(AidCenter, verbose_name='Gyűjtőhely', blank=False, on_delete=models.CASCADE)
-    is_urgent = models.BooleanField(verbose_name='Sürgős')
     status = models.CharField(
         verbose_name='Státusz',
         max_length=20,
@@ -164,8 +161,8 @@ class AssetRequest(BaseModel, NoteableModel):
         default=STATUS_REQUESTED,
         choices=(
             (STATUS_REQUESTED, 'szükség van rá'),
+            (STATUS_URGENT, 'sürgős'),
             (STATUS_FULFILLED, 'van elég'),
-            (STATUS_OVERLOADED, 'túl sok van'),
         ),
     )
     history = HistoricalRecords()

@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib import admin
 from django.contrib.gis import admin as gis_admin
 from django.urls import reverse
@@ -110,38 +109,26 @@ class AssetCategoryAdmin(admin.ModelAdmin):
     list_display = ['name']
     fields = (('name', 'icon'),)
 
-    def get_queryset(self, request):
-        return super(AssetCategoryAdmin, self).get_queryset(request).filter(category__isnull=True)
-
     def has_change_permission(self, request, obj=None):
         return False
 
     def has_delete_permission(self, request, obj=None):
-        return obj is not None and obj.assetcategory_set.count() == 0
-
-
-class AssetTypeForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['category'].required = True
-
-    class Meta:
-        model = models.AssetType
-        fields = ['name', 'icon', 'category']
+        return obj is not None and obj.assettype_set.count() == 0
 
 
 @admin.register(models.AssetType)
 class AssetTypeAdmin(admin.ModelAdmin):
-    form = AssetTypeForm
-    list_display = ['name', 'category']
+    list_display = ['name', 'category_link']
     list_filter = ['category']
     fields = (
-        ('name', 'icon'),
+        'name',
         'category',
     )
 
-    def get_queryset(self, request):
-        return super(AssetTypeAdmin, self).get_queryset(request).filter(category__isnull=False)
+    @admin.display(description='Kategória', ordering='name')
+    def category_link(self, obj):
+        url = reverse('admin:joladnijo_assetcategory_change', args=[obj.category.pk])
+        return mark_safe('<a href="%s">%s</a>' % (url, obj.category))
 
     def has_change_permission(self, request, obj=None):
         return False
@@ -152,13 +139,13 @@ class AssetTypeAdmin(admin.ModelAdmin):
 
 @admin.register(models.AssetRequest)
 class AssetRequestAdmin(SimpleHistoryAdmin):
-    list_display = ['name', 'aid_center_link', 'is_urgent', 'status']
-    list_filter = ['type', 'is_urgent', 'status', 'aid_center']
+    list_display = ['name', 'aid_center_link', 'status']
+    list_filter = ['type', 'status', 'aid_center']
     fields = (
         'name',
         'type',
         'aid_center',
-        ('status', 'is_urgent'),
+        'status',
     )
 
     @admin.display(description='Gyűjtőhely', ordering='name')

@@ -26,6 +26,7 @@ class AssetCategorySerializer(serializers.ModelSerializer):
 
 class AssetTypeSerializer(serializers.ModelSerializer):
     category = AssetCategorySerializer()
+    icon = serializers.CharField()
 
     class Meta:
         model = models.AssetType
@@ -52,8 +53,8 @@ class AidCenterSerializer(serializers.ModelSerializer):
     contact = ContactSerializer()
     geo_location = serializers.JSONField()
     assets_requested = AssetRequestSerializer(many=True, read_only=True)
+    assets_urgent = AssetRequestSerializer(many=True, read_only=True)
     assets_fulfilled = AssetRequestSerializer(many=True, read_only=True)
-    assets_overloaded = AssetRequestSerializer(many=True, read_only=True)
     feed = FeedItemSerializer(many=True, read_only=True)
 
     class Meta:

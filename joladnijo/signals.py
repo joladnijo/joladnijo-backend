@@ -8,7 +8,7 @@ from . import models
 
 @receiver(signals.post_save, sender=models.AssetRequest)
 def on_asset_request_save(sender, instance, created, **kwargs):
-    icon = instance.icon()
+    icon = instance.type.icon()
     if icon is None:
         icon = 'create' if created else 'update'
     models.FeedItem.objects.create(

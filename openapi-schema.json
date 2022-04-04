@@ -636,6 +636,10 @@
                 "asset_request": {
                   "type": "string",
                   "nullable": true
+                },
+                "user": {
+                  "type": "integer",
+                  "nullable": true
                 }
               },
               "required": [

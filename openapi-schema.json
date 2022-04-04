@@ -625,10 +625,12 @@
                 },
                 "status_old": {
                   "type": "string",
+                  "nullable": true,
                   "maxLength": 255
                 },
                 "status_new": {
                   "type": "string",
+                  "nullable": true,
                   "maxLength": 255
                 },
                 "asset_request": {

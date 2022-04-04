@@ -61,7 +61,7 @@ In the project folder issue the `migrate` command (with your venv activated)
 ### Start dev server
 
 ```bash
-./manage.py runserver
+make devserver
 ```
 
 ### Start docker compose stack with MySQL database (dev mode)

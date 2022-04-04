@@ -1,8 +1,9 @@
-runserver:
+devserver:
 	docker-compose up -d mysql
+	ENVIRONMENT=development \
+	APP_DEBUG_MODE=True \
 	DBPASSWORD=testsvcpassword \
 	SECRET_KEY=verysecretkey  \
-	APP_DEBUG=True \
 	JWT_AUDIENCE='https://joladnijo.jmsz.hu/api/' \
 	JWT_ISSUER='https://dev-ulmlyx6h.eu.auth0.com/' \
 	JWT_KEYS='https://dev-ulmlyx6h.eu.auth0.com/.well-known/jwks.json' \

@@ -164,7 +164,9 @@ class AssetRequest(BaseModel, NoteableModel):
             (STATUS_FULFILLED, 'van elég'),
         ),
     )
+
     history = HistoricalRecords()
+    __original_status = None
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
         verbose_name = 'Adomány'
@@ -172,6 +174,27 @@ class AssetRequest(BaseModel, NoteableModel):
 
     def __str__(self) -> str:
         return self.name
+
+    def __init__(self, *args, **kwargs):
+        super(AssetRequest, self).__init__(*args, **kwargs)
+        self.__original_status = self.status
+
+    def save(self, force_insert=False, force_update=False, *args, **kwargs):
+        if self.status != self.__original_status:
+            icon = self.type.icon()
+            if icon is None or len(icon) == 0:
+                icon = 'create' if self.pk is None else 'update'
+            FeedItem.objects.create(
+                name=self.name,
+                icon=icon,
+                asset_request=self,
+                aid_center=self.aid_center,
+                status_old=self.__original_status,
+                status_new=self.status,
+            )
+            self.__original_status = self.status
+
+        super(AssetRequest, self).save(force_insert, force_update, *args, **kwargs)
 
 
 class FeedItem(BaseModel, NoteableModel):

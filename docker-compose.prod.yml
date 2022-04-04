@@ -6,3 +6,4 @@ services:
       context: .
     environment:
       APP_DEBUG_MODE: 'False'
+      ENVIRONMENT: production

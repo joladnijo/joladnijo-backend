@@ -18,6 +18,4 @@
     address: Főtér 1.
     geo_location: null
     call_required: required
-    money_accepted: null
-    money_description: ''
     campaign_ending_on: null

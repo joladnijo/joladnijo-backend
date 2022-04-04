@@ -61,8 +61,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Migrations
-        run: python manage.py migrate
+      - name: Run Migrations & load seed data
+        run: |
+          python manage.py migrate
+          python manage.py loaddata seeds/default.yaml
         env:
           DBHOST: 127.0.0.1
           DBPASSWORD: joladnijo
@@ -74,7 +76,7 @@ jobs:
       - name: Verify that Django is running
         run: |
           python manage.py runserver &
-          STATUS=`curl -s -I http://127.0.0.1:8000/admin/login/?next=/admin/ | grep HTTP/1.1 | awk {'print $2'}`
+          STATUS=`curl -s -I http://127.0.0.1:8000/aid-centers/piripocs-varoshaza | grep HTTP/1.1 | awk {'print $2'}`
           if [ $STATUS -ne "200" ]
           then
               echo "Status: $STATUS"

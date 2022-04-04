@@ -23,7 +23,7 @@ def on_asset_request_save(sender, instance, created, **kwargs):
 
 @receiver(signals.post_delete, sender=models.AssetRequest)
 def on_asset_request_delete(sender, instance, **kwargs):
-    icon = instance.type. icon() if instance.type is not None else None
+    icon = instance.type.icon() if instance.type is not None else None
     if icon is None:
         icon = 'delete'
     models.FeedItem.objects.create(

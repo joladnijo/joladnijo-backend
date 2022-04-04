@@ -20,8 +20,8 @@ class NoteableModel(models.Model):
 
 
 class Organization(BaseModel, NoteableModel):
-    name = models.CharField(verbose_name='Név', max_length=255, blank=False, unique=True)
-    slug = models.SlugField(max_length=255, blank=False, unique=True)
+    name = models.CharField(verbose_name='Név', max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
     history = HistoricalRecords()
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
@@ -33,14 +33,14 @@ class Organization(BaseModel, NoteableModel):
 
 
 class AidCenter(BaseModel, NoteableModel):
-    name = models.CharField(verbose_name='Név', max_length=255, blank=False, unique=True)
-    slug = models.SlugField(max_length=255, blank=False, unique=True)
+    name = models.CharField(verbose_name='Név', max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
     photo = models.FileField(verbose_name='Kép', max_length=255, blank=True, upload_to='aidcenter-photos')
     organization = models.ForeignKey(Organization, verbose_name='Szervezet', on_delete=models.CASCADE)
-    country_code = models.CharField(verbose_name='Ország', max_length=5, blank=False)
-    postal_code = models.CharField(verbose_name='Irányítószám', max_length=10, blank=False)
-    city = models.CharField(verbose_name='Település', max_length=50, blank=False)
-    address = models.CharField(verbose_name='Cím', max_length=255, blank=False)
+    country_code = models.CharField(verbose_name='Ország', max_length=5)
+    postal_code = models.CharField(verbose_name='Irányítószám', max_length=10)
+    city = models.CharField(verbose_name='Település', max_length=50)
+    address = models.CharField(verbose_name='Cím', max_length=255)
     geo_location = gis_models.PointField(verbose_name='Koordináták', blank=True, null=True)
     call_required = models.CharField(
         verbose_name='Hívás szükséges?',
@@ -77,8 +77,8 @@ class AidCenter(BaseModel, NoteableModel):
 
 
 class Contact(BaseModel, NoteableModel):
-    name = models.CharField(verbose_name='Név', max_length=255, blank=False)
-    email = models.EmailField(verbose_name='E-mail cím', max_length=255, blank=False)
+    name = models.CharField(verbose_name='Név', max_length=255)
+    email = models.EmailField(verbose_name='E-mail cím', max_length=255)
     phone = models.CharField(verbose_name='Telefonszám', max_length=20, blank=True)
     facebook = models.URLField(verbose_name='Facebook profil', max_length=255, blank=True)
     url = models.URLField(verbose_name='Egyéb url', max_length=255, blank=True)
@@ -107,7 +107,7 @@ class Contact(BaseModel, NoteableModel):
 
 
 class AssetCategory(BaseModel):
-    name = models.CharField(verbose_name='Név', max_length=255, blank=False, unique=True)
+    name = models.CharField(verbose_name='Név', max_length=255, unique=True)
     icon = models.CharField(verbose_name='Ikon', max_length=50, blank=True)
 
     class Meta:
@@ -119,8 +119,8 @@ class AssetCategory(BaseModel):
 
 
 class AssetType(BaseModel):
-    name = models.CharField(verbose_name='Név', max_length=255, blank=False, unique=True)
-    category = models.ForeignKey(AssetCategory, verbose_name='Kategória', blank=False, on_delete=models.CASCADE)
+    name = models.CharField(verbose_name='Név', max_length=255, unique=True)
+    category = models.ForeignKey(AssetCategory, verbose_name='Kategória', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Típus'
@@ -151,13 +151,12 @@ class AssetRequest(BaseModel, NoteableModel):
 
     objects = AssetRequestManager()
 
-    name = models.CharField(verbose_name='Név', max_length=255, blank=False)
-    type = models.ForeignKey(AssetType, verbose_name='Típus', blank=False, on_delete=models.CASCADE)
-    aid_center = models.ForeignKey(AidCenter, verbose_name='Gyűjtőhely', blank=False, on_delete=models.CASCADE)
+    name = models.CharField(verbose_name='Név', max_length=255)
+    type = models.ForeignKey(AssetType, verbose_name='Típus', on_delete=models.CASCADE)
+    aid_center = models.ForeignKey(AidCenter, verbose_name='Gyűjtőhely', on_delete=models.CASCADE)
     status = models.CharField(
         verbose_name='Státusz',
         max_length=20,
-        blank=False,
         default=STATUS_REQUESTED,
         choices=(
             (STATUS_REQUESTED, 'szükség van rá'),
@@ -176,13 +175,13 @@ class AssetRequest(BaseModel, NoteableModel):
 
 
 class FeedItem(BaseModel, NoteableModel):
-    name = models.CharField(verbose_name='Név', max_length=255, blank=False)
+    name = models.CharField(verbose_name='Név', max_length=255)
     icon = models.CharField(verbose_name='Ikon', max_length=50, blank=True)
     timestamp = models.DateTimeField(verbose_name='Időpont', auto_now_add=True)
     asset_request = models.ForeignKey(
         AssetRequest, verbose_name='Adomány', blank=True, null=True, on_delete=models.SET_NULL
     )
-    aid_center = models.ForeignKey(AidCenter, verbose_name='Gyűjtőhely', blank=False, on_delete=models.CASCADE)
+    aid_center = models.ForeignKey(AidCenter, verbose_name='Gyűjtőhely', on_delete=models.CASCADE)
     status_old = models.CharField(verbose_name='Korábbi állapot', max_length=255, blank=True, null=True)
     status_new = models.CharField(verbose_name='Új állapot', max_length=255, blank=True, null=True)
 

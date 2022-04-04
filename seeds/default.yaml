@@ -1,0 +1,23 @@
+- model: joladnijo.organization
+  pk: 2b03af33-9f70-4e20-9f5f-873ace5e16d9
+  fields:
+    note: ''
+    name: Első szervezet
+    slug: elso-szervezet
+- model: joladnijo.aidcenter
+  pk: 6f826e4a-7866-4110-aec8-4b25789896c2
+  fields:
+    note: ''
+    name: Piripócs városháza
+    slug: piripocs-varoshaza
+    photo: ''
+    organization: 2b03af33-9f70-4e20-9f5f-873ace5e16d9
+    country_code: HU
+    postal_code: '3212'
+    city: Piripócs
+    address: Főtér 1.
+    geo_location: null
+    call_required: required
+    money_accepted: null
+    money_description: ''
+    campaign_ending_on: null

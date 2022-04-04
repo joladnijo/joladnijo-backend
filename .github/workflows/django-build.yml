@@ -39,7 +39,7 @@ jobs:
       - tests
     services:
       mysql:
-        image: mysql:5.7
+        image: ghcr.io/joladnijo/mysql:5.7-1
         env:
           MYSQL_DATABASE: joladnijo
           MYSQL_ROOT_PASSWORD: joladnijo

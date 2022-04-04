@@ -39,3 +39,6 @@ unit:
 	echo "todo"
 
 test: lint unit
+
+loaddata:
+	python manage.py loaddata seeds/default.yaml

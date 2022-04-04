@@ -7,6 +7,7 @@ services:
       dockerfile: dev.Dockerfile
       context: .
     environment:
+      ENVIRONMENT: development
       DBPASSWORD: testsvcpassword
       DBHOST: mysql
       DBPORT: '3306'
@@ -19,18 +20,11 @@ services:
       - "8000:8000"
 
   mysql:
-    build:
-      context: ./database/
-      dockerfile: Dockerfile
+    image: ghcr.io/joladnijo/mysql:5.7-1
     ports:
       - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: testrootpassword
       MYSQL_USER: svc_backend
       MYSQL_PASSWORD: testsvcpassword
       MYSQL_DATABASE: joladnijo
-
-volumes:
-  mysql-data:

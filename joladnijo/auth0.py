@@ -10,7 +10,7 @@ from django.http import JsonResponse
 
 def jwt_decode_token(token):
     header = jwt.get_unverified_header(token)
-    jwks = requests.get(os.environ["JWT_KEYS"]).json()
+    jwks = requests.get(os.environ.get("JWT_KEYS", "")).json()
     public_key = None
     for jwk in jwks["keys"]:
         if jwk["kid"] == header["kid"]:
@@ -22,8 +22,8 @@ def jwt_decode_token(token):
     return jwt.decode(
         token,
         public_key,
-        audience=os.environ["JWT_AUDIENCE"],
-        issuer=os.environ["JWT_ISSUER"],
+        audience=os.environ.get("JWT_AUDIENCE", ""),
+        issuer=os.environ.get("JWT_ISSUER", ""),
         algorithms=[os.environ.get("JWT_ALGORITHM", "RS256")],
     )
 

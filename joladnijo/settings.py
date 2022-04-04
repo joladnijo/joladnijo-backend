@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', '')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'very-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('APP_DEBUG_MODE', 'False').lower() in ['true', 't', '1']
@@ -94,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.mysql',
         'NAME': 'joladnijo',
         'USER': 'svc_backend',
-        'PASSWORD': os.environ['DBPASSWORD'],
+        'PASSWORD': os.environ.get('DBPASSWORD', 'testsvcpassword'),
         'HOST': os.environ.get('DBHOST', '127.0.0.1'),
         'PORT': os.environ.get('DBPORT', '3306'),
         'OPTIONS': {'charset': 'utf8mb4'},
@@ -170,8 +170,8 @@ JWT_AUTH = {
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': 'joladnijo.auth0.jwt_get_username_from_payload_handler',
     'JWT_DECODE_HANDLER': 'joladnijo.auth0.jwt_decode_token',
     'JWT_ALGORITHM': os.environ.get('JWT_ALGORITHM', 'RS256'),
-    'JWT_AUDIENCE': os.environ['JWT_AUDIENCE'],
-    'JWT_ISSUER': os.environ['JWT_ISSUER'],
+    'JWT_AUDIENCE': os.environ.get('JWT_AUDIENCE', ''),
+    'JWT_ISSUER': os.environ.get('JWT_ISSUER', ''),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
 

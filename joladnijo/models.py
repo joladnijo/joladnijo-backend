@@ -183,8 +183,8 @@ class FeedItem(BaseModel, NoteableModel):
         AssetRequest, verbose_name='Adomány', blank=True, null=True, on_delete=models.SET_NULL
     )
     aid_center = models.ForeignKey(AidCenter, verbose_name='Gyűjtőhely', blank=False, on_delete=models.CASCADE)
-    status_old = models.CharField(verbose_name='Korábbi állapot', max_length=255, blank=True)
-    status_new = models.CharField(verbose_name='Új állapot', max_length=255, blank=True)
+    status_old = models.CharField(verbose_name='Korábbi állapot', max_length=255, blank=True, null=True)
+    status_new = models.CharField(verbose_name='Új állapot', max_length=255, blank=True, null=True)
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
         verbose_name = 'Változás'

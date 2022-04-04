@@ -177,3 +177,12 @@ class FeedItemAdmin(admin.ModelAdmin):
     def aid_center_link(self, obj):
         url = reverse('admin:joladnijo_aidcenter_change', args=[obj.aid_center.pk])
         return mark_safe('<a href="%s">%s</a>' % (url, obj.aid_center))
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False

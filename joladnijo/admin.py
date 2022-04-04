@@ -157,7 +157,7 @@ class AssetRequestAdmin(SimpleHistoryAdmin):
 @admin.register(models.FeedItem)
 class FeedItemAdmin(admin.ModelAdmin):
     list_display = ['timestamp', 'name', 'asset_request_link', 'aid_center_link', 'status_old', 'status_new']
-    list_filter = ['asset_request', 'aid_center']
+    list_filter = ['asset_request', 'aid_center', 'user']
     fields = (
         ('name', 'icon'),
         'asset_request',
@@ -165,6 +165,7 @@ class FeedItemAdmin(admin.ModelAdmin):
         'status_old',
         'status_new',
         'note',
+        'user',
     )
     read_only_fields = ['timestamp']
 

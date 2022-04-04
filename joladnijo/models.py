@@ -2,6 +2,7 @@ import uuid
 
 from django.contrib.gis.db import models as gis_models
 from django.db import models
+from django_currentuser.db.models import CurrentUserField
 from simple_history.models import HistoricalRecords
 
 
@@ -207,6 +208,7 @@ class FeedItem(BaseModel, NoteableModel):
     aid_center = models.ForeignKey(AidCenter, verbose_name='Gyűjtőhely', on_delete=models.CASCADE)
     status_old = models.CharField(verbose_name='Korábbi állapot', max_length=255, blank=True, null=True)
     status_new = models.CharField(verbose_name='Új állapot', max_length=255, blank=True, null=True)
+    user = CurrentUserField(verbose_name='Felhasználó', on_delete=models.SET_NULL)
 
     class Meta(BaseModel.Meta, NoteableModel.Meta):
         verbose_name = 'Változás'

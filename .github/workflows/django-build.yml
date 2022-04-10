@@ -44,16 +44,10 @@ jobs:
         if: steps.cached-venv.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
 
-      - name: Run formatter (black)
+      - name: Run lint
         run: |
           source $VENV
-          make black
-
-      - name: Run linter (flake8)
-        run: make flake
-
-      - name: Run typecheck (mypy)
-        run: make typing
+          make lint
 
   runserver:
     runs-on: ubuntu-latest
@@ -97,30 +91,18 @@ jobs:
         id: cached-venv
         uses: actions/cache@v2
         with:
-          path: ~/.venv
+          path: .venv
           key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('poetry.lock') }}
 
       - name: Install poetry dependencies
         if: steps.cached-venv.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
 
-      - name: Activate venv
-        run: source ~/.venv/bin/activate
-
-      - name: Run Migrations & load seed data
-        run: |
-          python manage.py migrate
-          python manage.py loaddata seeds/default.yaml
-        env:
-          DBHOST: 127.0.0.1
-          DBPASSWORD: joladnijo
-          SECRET_KEY: secret-key-for-build-pipeline
-          JWT_AUDIENCE: https://joladnijo.jmsz.hu/api/
-          JWT_KEYS: https://dev-ulmlyx6h.eu.auth0.com/.well-known/jwks.json
-          JWT_ISSUER: https://dev-ulmlyx6h.eu.auth0.com/
-
       - name: Verify that Django is running
         run: |
+          source $VENV
+          python manage.py migrate
+          python manage.py loaddata seeds/default.yaml
           python manage.py runserver &
           STATUS=`curl -s -I http://127.0.0.1:8000/aid-centers/piripocs-varoshaza | grep HTTP/1.1 | awk {'print $2'}`
           if [ $STATUS -ne "200" ]
@@ -138,6 +120,7 @@ jobs:
 
       - name: Check if need to commit schema changes
         run: |
+          source $VENV
           make schema
           STATUS=`git status --porcelain`
           if [[ $STATUS ]]

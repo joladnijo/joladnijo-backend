@@ -44,11 +44,10 @@ jobs:
         if: steps.cached-venv.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
 
-      - name: Activate venv
-        run: source $VENV
-
       - name: Run formatter (black)
-        run: make black
+        run: |
+          source $VENV
+          make black
 
       - name: Run linter (flake8)
         run: make flake

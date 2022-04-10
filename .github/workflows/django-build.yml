@@ -45,7 +45,7 @@ jobs:
         run: poetry install --no-interaction --no-root
 
       - name: Activate venv
-        run: source ~/.venv/bin/activate
+        run: source ./.venv/bin/activate
 
       - name: Run formatter (black)
         run: make black

@@ -181,16 +181,17 @@ class AssetRequest(BaseModel, NoteableModel):
         self.__original_status = self.status
 
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
-        if self.status != self.__original_status:
+        adding = self._state.adding
+        if adding or self.status != self.__original_status:
             icon = self.type.icon()
             if icon is None or len(icon) == 0:
-                icon = 'create' if self.pk is None else 'update'
+                icon = 'create' if adding else 'update'
             FeedItem.objects.create(
                 name=self.name,
                 icon=icon,
                 asset_request=self,
                 aid_center=self.aid_center,
-                status_old=self.__original_status,
+                status_old=None if adding else self.__original_status,
                 status_new=self.status,
             )
             self.__original_status = self.status

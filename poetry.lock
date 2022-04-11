@@ -358,7 +358,7 @@ python-versions = "*"
 name = "pyyaml"
 version = "6.0"
 description = "YAML parser and emitter for Python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -447,7 +447,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "b3a598e48969a1aa1b769a0a99ee8503b4efe1255137561fa0b318b58b286e2d"
+content-hash = "1a36a8ca4ee6316393ee0f14f8592ed3a49734356ee51f840757b477ea2bb6d5"
 
 [metadata.files]
 asgiref = [

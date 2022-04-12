@@ -49,7 +49,7 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
     default_zoom = 7
     fieldsets = (
         (
-            'Basic info',
+            'Alap infók',
             {
                 'fields': (
                     ('name', 'slug'),
@@ -59,7 +59,7 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
             },
         ),
         (
-            'Location',
+            'Helyszín',
             {
                 'fields': (
                     'country_code',
@@ -70,19 +70,10 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
             },
         ),
         (
-            'Needs',
+            'Egyéb',
             {
                 'fields': (
-                    'money_accepted',
-                    'money_description',
                     'campaign_ending_on',
-                ),
-            },
-        ),
-        (
-            'Other',
-            {
-                'fields': (
                     'call_required',
                     'note',
                 ),
@@ -91,10 +82,7 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
     )
     inlines = [AidCenterContactInline]
 
-    @admin.display(
-        description='Organization',
-        ordering='name',
-    )
+    @admin.display(description='Szervezet', ordering='name')
     def organization_link(self, obj):
         url = reverse('admin:joladnijo_organization_change', args=[obj.organization.pk])
         return mark_safe('<a href="%s">%s</a>' % (url, obj.organization))
@@ -117,38 +105,85 @@ class ContactAdmin(SimpleHistoryAdmin):
 
 
 @admin.register(models.AssetCategory)
-class AssetCategoryAdmin(SimpleHistoryAdmin):
-    list_display = ['name', 'parent']
-    list_filter = ['parent']
+class AssetCategoryAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    fields = (('name', 'icon'),)
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return obj is not None and obj.assettype_set.count() == 0
+
+
+@admin.register(models.AssetType)
+class AssetTypeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'category_link']
+    list_filter = ['category']
     fields = (
-        ('name', 'icon'),
-        'parent',
+        'name',
+        'category',
     )
 
-    def render_change_form(self, request, context, *args, **kwargs):
-        obj = kwargs['obj']
-        parent_qs = models.AssetCategory.objects.filter(parent__isnull=True)
-        if obj is not None:
-            parent_qs = parent_qs.exclude(id=obj.id)
-        context['adminform'].form.fields['parent'].queryset = parent_qs
-        return super(AssetCategoryAdmin, self).render_change_form(request, context, *args, **kwargs)
+    @admin.display(description='Kategória', ordering='name')
+    def category_link(self, obj):
+        url = reverse('admin:joladnijo_assetcategory_change', args=[obj.category.pk])
+        return mark_safe('<a href="%s">%s</a>' % (url, obj.category))
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return obj is not None and obj.assetrequest_set.count() == 0
 
 
 @admin.register(models.AssetRequest)
 class AssetRequestAdmin(SimpleHistoryAdmin):
-    list_display = ['name', 'aid_center_link', 'is_urgent', 'status']
-    list_filter = ['category', 'is_urgent', 'status', 'aid_center']
+    list_display = ['name', 'aid_center_link', 'status']
+    list_filter = ['type', 'status', 'aid_center']
     fields = (
-        ('name', 'icon'),
-        'category',
+        'name',
+        'type',
         'aid_center',
-        ('status', 'is_urgent'),
+        'status',
     )
 
-    @admin.display(
-        description='Aid center',
-        ordering='name',
-    )
+    @admin.display(description='Gyűjtőhely', ordering='name')
     def aid_center_link(self, obj):
         url = reverse('admin:joladnijo_aidcenter_change', args=[obj.aid_center.pk])
         return mark_safe('<a href="%s">%s</a>' % (url, obj.aid_center))
+
+
+@admin.register(models.FeedItem)
+class FeedItemAdmin(admin.ModelAdmin):
+    list_display = ['timestamp', 'name', 'asset_request_link', 'aid_center_link', 'status_old', 'status_new']
+    list_filter = ['asset_request', 'aid_center', 'user']
+    fields = (
+        ('name', 'icon'),
+        'asset_request',
+        'aid_center',
+        'status_old',
+        'status_new',
+        'note',
+        'user',
+    )
+    read_only_fields = ['timestamp']
+
+    @admin.display(description='Adomány', ordering='name')
+    def asset_request_link(self, obj):
+        url = reverse('admin:joladnijo_assetrequest_change', args=[obj.asset_request.pk])
+        return mark_safe('<a href="%s">%s</a>' % (url, obj.asset_request))
+
+    @admin.display(description='Gyűjtőhely', ordering='name')
+    def aid_center_link(self, obj):
+        url = reverse('admin:joladnijo_aidcenter_change', args=[obj.aid_center.pk])
+        return mark_safe('<a href="%s">%s</a>' % (url, obj.aid_center))
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False

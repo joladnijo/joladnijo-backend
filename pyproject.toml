@@ -16,6 +16,7 @@ mysqlclient = "2.1.0"
 drf-jwt = "1.13.4"
 requests = "2.22.0"
 PyYAML = "^6.0"
+django-currentuser = "0.5.3"
 
 [tool.poetry.dev-dependencies]
 black = "22.3.0"

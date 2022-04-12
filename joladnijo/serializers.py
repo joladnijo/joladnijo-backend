@@ -20,14 +20,37 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class AssetCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AssetCategory
+        fields = ['name', 'icon']
+        read_only_fields = ['name', 'icon']
+
+
+class AssetTypeSerializer(serializers.ModelSerializer):
+    category = AssetCategorySerializer()
+    icon = serializers.CharField()
+
+    class Meta:
+        model = models.AssetType
         fields = '__all__'
+        read_only_fields = ['name', 'icon', 'category']
 
 
 class AssetRequestSerializer(serializers.ModelSerializer):
-    category = AssetCategorySerializer()
+    type = AssetTypeSerializer()
 
     class Meta:
         model = models.AssetRequest
+        exclude = ['aid_center']
+
+    def build_standard_field(self, field_name, model_field):
+        field_class, field_kwargs = super(AssetRequestSerializer, self).build_standard_field(field_name, model_field)
+        if field_name == 'status':
+            field_kwargs['required'] = True
+        return field_class, field_kwargs
+
+
+class FeedItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.FeedItem
         exclude = ['aid_center']
 
 
@@ -36,9 +59,9 @@ class AidCenterSerializer(serializers.ModelSerializer):
     contact = ContactSerializer()
     geo_location = serializers.JSONField()
     assets_requested = AssetRequestSerializer(many=True, read_only=True)
+    assets_urgent = AssetRequestSerializer(many=True, read_only=True)
     assets_fulfilled = AssetRequestSerializer(many=True, read_only=True)
-    assets_overloaded = AssetRequestSerializer(many=True, read_only=True)
-    feed = serializers.JSONField(read_only=True)
+    feed = FeedItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.AidCenter

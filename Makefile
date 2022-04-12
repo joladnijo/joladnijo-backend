@@ -41,5 +41,8 @@ unit:
 
 test: lint unit
 
+dumpdata:
+	python manage.py dumpdata joladnijo --format yaml --output seeds/default.yaml
+
 loaddata:
 	python manage.py loaddata seeds/default.yaml

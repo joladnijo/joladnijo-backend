@@ -12,19 +12,21 @@ Ez a https://joladnijo.jmsz.hu adományozási információkat segítő oldal bac
 
 ## Setup development environment
 
-### Virtualenv
-
-Create and activate virtualenv:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
+### Install Poetry package manager
+```sh
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 ```
 
-Install requirements:
+### Install project dependencies using Poetry
+```sh
+poetry install
+```
+### Virtualenv
+
+Activate virtualenv:
 
 ```bash
-pip install -r requirements.txt
+source .venv/bin/activate
 ```
 
 ### Environment variables

@@ -19,3 +19,153 @@
     geo_location: null
     call_required: required
     campaign_ending_on: null
+- model: joladnijo.assetcategory
+  pk: 121d25fc-35a5-43ed-9912-efd94a929575
+  fields:
+    name: Gyerek
+    icon: ''
+- model: joladnijo.assetcategory
+  pk: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
+  fields:
+    name: Élelmiszer
+    icon: ''
+- model: joladnijo.assetcategory
+  pk: 2159f29c-6687-4c5e-bc03-3796321866c2
+  fields:
+    name: Szálláshoz
+    icon: ''
+- model: joladnijo.assetcategory
+  pk: 42863124-7b71-43e4-b30d-caf349382bf2
+  fields:
+    name: Egyéb
+    icon: ''
+- model: joladnijo.assetcategory
+  pk: 4fb1477e-d5fa-47e8-a11c-80d03103256d
+  fields:
+    name: Egészségügy
+    icon: ''
+- model: joladnijo.assetcategory
+  pk: 8b6a4f75-21bb-474e-a6a1-6e7390f0aaa4
+  fields:
+    name: Ruházat
+    icon: ''
+- model: joladnijo.assetcategory
+  pk: 98dc7404-86b7-492f-881d-0827dbb0e356
+  fields:
+    name: Higiénia
+    icon: ''
+- model: joladnijo.assetcategory
+  pk: dff242f9-72e5-466e-8530-c7bd039fb774
+  fields:
+    name: Logisztika
+    icon: ''
+- model: joladnijo.assetcategory
+  pk: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
+  fields:
+    name: Emberi erőforrás
+    icon: ''
+- model: joladnijo.assettype
+  pk: 028d1c5f-5cbc-4456-b066-9d6a5c950a17
+  fields:
+    name: Tartós fél- vagy készétel
+    category: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
+- model: joladnijo.assettype
+  pk: 2c5d9f93-8822-488d-a203-24f6cc1ebcb3
+  fields:
+    name: Sampon, tusfürdő, szappan
+    category: 98dc7404-86b7-492f-881d-0827dbb0e356
+- model: joladnijo.assettype
+  pk: 50342de6-e282-4c52-bffd-6dce41e1ede1
+  fields:
+    name: Babajáték
+    category: 121d25fc-35a5-43ed-9912-efd94a929575
+- model: joladnijo.assettype
+  pk: 5af85ee9-e80e-49d2-8ebf-06deee2ecb2c
+  fields:
+    name: Sapka, sál, kesztyű
+    category: 8b6a4f75-21bb-474e-a6a1-6e7390f0aaa4
+- model: joladnijo.assettype
+  pk: 5b624120-1a7d-4fad-a7ca-a71de2ed645c
+  fields:
+    name: Maszk
+    category: 4fb1477e-d5fa-47e8-a11c-80d03103256d
+- model: joladnijo.assettype
+  pk: 8bcd834d-076b-4390-b45f-c0cb2cf2fd47
+  fields:
+    name: Állateledel
+    category: 42863124-7b71-43e4-b30d-caf349382bf2
+- model: joladnijo.assettype
+  pk: a97e71e3-e871-4458-ae12-e74a950fd709
+  fields:
+    name: Eldobható tányérok
+    category: dff242f9-72e5-466e-8530-c7bd039fb774
+- model: joladnijo.assettype
+  pk: cec385ad-2475-491a-a7d7-d0922b1ece49
+  fields:
+    name: Matrac
+    category: 2159f29c-6687-4c5e-bc03-3796321866c2
+- model: joladnijo.assettype
+  pk: d468943c-ac9f-4fbe-8262-875dc15e5f49
+  fields:
+    name: Önkéntes
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
+- model: joladnijo.assetrequest
+  pk: 71c70ed5-0b1c-4b98-9b3c-6bea671b2a20
+  fields:
+    note: ''
+    name: Kemény matrac
+    type: cec385ad-2475-491a-a7d7-d0922b1ece49
+    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
+    status: fulfilled
+- model: joladnijo.assetrequest
+  pk: c955ba04-d868-4694-b927-a5f176352a97
+  fields:
+    note: ''
+    name: Pizza
+    type: 028d1c5f-5cbc-4456-b066-9d6a5c950a17
+    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
+    status: requested
+- model: joladnijo.assetrequest
+  pk: d7692345-faeb-46d1-ab81-e0470d104062
+  fields:
+    note: ''
+    name: Sampon
+    type: 2c5d9f93-8822-488d-a203-24f6cc1ebcb3
+    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
+    status: urgent
+- model: joladnijo.feeditem
+  pk: 7e647cbf-a177-4ae7-b740-ac96c5f57ae3
+  fields:
+    note: ''
+    name: Kemény matrac
+    icon: create
+    timestamp: 2022-04-12 20:33:38.946547+00:00
+    asset_request: 71c70ed5-0b1c-4b98-9b3c-6bea671b2a20
+    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
+    status_old: null
+    status_new: fulfilled
+    user: 1
+- model: joladnijo.feeditem
+  pk: a5111295-770b-44ea-be4a-4307d166b2ea
+  fields:
+    note: ''
+    name: Sampon
+    icon: create
+    timestamp: 2022-04-12 20:32:35.188937+00:00
+    asset_request: d7692345-faeb-46d1-ab81-e0470d104062
+    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
+    status_old: null
+    status_new: urgent
+    user: 1
+- model: joladnijo.feeditem
+  pk: f3717414-950b-4c57-8baa-5404bc369303
+  fields:
+    note: ''
+    name: Pizza
+    icon: create
+    timestamp: 2022-04-12 20:32:20.530271+00:00
+    asset_request: c955ba04-d868-4694-b927-a5f176352a97
+    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
+    status_old: null
+    status_new: requested
+    user: 1

@@ -1,7 +1,7 @@
 import uuid
 
 from django.contrib.gis.db import models as gis_models
-from django.db import models
+from django.db import models, transaction
 from django_currentuser.db.models import CurrentUserField
 from simple_history.models import HistoricalRecords
 
@@ -182,21 +182,22 @@ class AssetRequest(BaseModel, NoteableModel):
 
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
         adding = self._state.adding
-        if adding or self.status != self.__original_status:
-            icon = self.type.icon()
-            if icon is None or len(icon) == 0:
-                icon = 'create' if adding else 'update'
-            FeedItem.objects.create(
-                name=self.name,
-                icon=icon,
-                asset_request=self,
-                aid_center=self.aid_center,
-                status_old=None if adding else self.__original_status,
-                status_new=self.status,
-            )
-            self.__original_status = self.status
+        should_save_feed_item = adding or self.status != self.__original_status
 
-        super(AssetRequest, self).save(force_insert, force_update, *args, **kwargs)
+        with transaction.atomic():
+            super(AssetRequest, self).save(force_insert, force_update, *args, **kwargs)
+            if should_save_feed_item:
+                icon = self.type.icon()
+                if icon is None or len(icon) == 0:
+                    icon = 'create' if adding else 'update'
+                FeedItem.objects.create(
+                    name=self.name,
+                    icon=icon,
+                    asset_request=self,
+                    aid_center=self.aid_center,
+                    status_old=None if adding else self.__original_status,
+                    status_new=self.status,
+                )
 
 
 class FeedItem(BaseModel, NoteableModel):

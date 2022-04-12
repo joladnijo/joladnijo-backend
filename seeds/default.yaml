@@ -144,7 +144,7 @@
     aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
     status_old: null
     status_new: fulfilled
-    user: 1
+    user: null
 - model: joladnijo.feeditem
   pk: a5111295-770b-44ea-be4a-4307d166b2ea
   fields:
@@ -156,7 +156,7 @@
     aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
     status_old: null
     status_new: urgent
-    user: 1
+    user: null
 - model: joladnijo.feeditem
   pk: f3717414-950b-4c57-8baa-5404bc369303
   fields:
@@ -168,4 +168,4 @@
     aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
     status_old: null
     status_new: requested
-    user: 1
+    user: null

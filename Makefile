@@ -4,9 +4,12 @@ devserver:
 	APP_DEBUG_MODE=True \
 	DBPASSWORD=testsvcpassword \
 	SECRET_KEY=verysecretkey  \
-	JWT_AUDIENCE='https://joladnijo.jmsz.hu/api/' \
+	JWT_AUDIENCE='https://api.joladnijo.hu/' \
 	JWT_ISSUER='https://dev-ulmlyx6h.eu.auth0.com/' \
 	JWT_KEYS='https://dev-ulmlyx6h.eu.auth0.com/.well-known/jwks.json' \
+	DJANGO_SUPERUSER_USERNAME=superuser \
+	DJANGO_SUPERUSER_PASSWORD=superuserpassword \
+	DJANGO_SUPERUSER_EMAIL=superuser@example.com \
 	./start-django.sh
 
 docker-compose-prod:

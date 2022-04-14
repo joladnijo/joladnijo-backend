@@ -180,6 +180,10 @@ jobs:
             cd joladnijo-infra-staging
             git checkout main
             git pull
+            export DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+            export DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+            export DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}
+            echo $DJANGO_SUPERUSER_EMAIL
             docker-compose -f docker-compose.yml -f docker-compose.staging.yml pull
             docker-compose -f docker-compose.yml -f docker-compose.staging.yml down
             docker-compose -f docker-compose.yml -f docker-compose.staging.yml up -d

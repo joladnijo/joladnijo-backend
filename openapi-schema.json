@@ -666,6 +666,9 @@
                 "aid_center_name": {
                   "type": "string"
                 },
+                "aid_center_slug": {
+                  "type": "string"
+                },
                 "note": {
                   "type": "string",
                   "maxLength": 255
@@ -696,15 +699,12 @@
                 "asset_request": {
                   "type": "string",
                   "nullable": true
-                },
-                "aid_center": {
-                  "type": "string"
                 }
               },
               "required": [
                 "aid_center_name",
-                "name",
-                "aid_center"
+                "aid_center_slug",
+                "name"
               ]
             },
             "readOnly": true
@@ -780,6 +780,9 @@
           "aid_center_name": {
             "type": "string"
           },
+          "aid_center_slug": {
+            "type": "string"
+          },
           "note": {
             "type": "string",
             "maxLength": 255
@@ -810,15 +813,12 @@
           "asset_request": {
             "type": "string",
             "nullable": true
-          },
-          "aid_center": {
-            "type": "string"
           }
         },
         "required": [
           "aid_center_name",
-          "name",
-          "aid_center"
+          "aid_center_slug",
+          "name"
         ]
       }
     }

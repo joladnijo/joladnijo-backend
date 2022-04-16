@@ -49,9 +49,11 @@ class AssetRequestSerializer(serializers.ModelSerializer):
 
 
 class FeedItemSerializer(serializers.ModelSerializer):
+    aid_center_name = serializers.CharField(source='aid_center.name')
+
     class Meta:
         model = models.FeedItem
-        exclude = ['aid_center']
+        exclude = ['user']
 
 
 class AidCenterSerializer(serializers.ModelSerializer):

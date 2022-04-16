@@ -260,6 +260,63 @@
           "aid-centers"
         ]
       }
+    },
+    "/feed-items/": {
+      "get": {
+        "operationId": "listFeedItems",
+        "description": "This viewset automatically provides `list`, `retrieve` actions.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FeedItem"
+                  }
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "feed-items"
+        ]
+      }
+    },
+    "/feed-items/{id}/": {
+      "get": {
+        "operationId": "retrieveFeedItem",
+        "description": "This viewset automatically provides `list`, `retrieve` actions.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "A UUID string identifying this Változás.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedItem"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "feed-items"
+        ]
+      }
     }
   },
   "components": {
@@ -606,6 +663,9 @@
                   "format": "uuid",
                   "readOnly": true
                 },
+                "aid_center_name": {
+                  "type": "string"
+                },
                 "note": {
                   "type": "string",
                   "maxLength": 255
@@ -637,13 +697,14 @@
                   "type": "string",
                   "nullable": true
                 },
-                "user": {
-                  "type": "integer",
-                  "nullable": true
+                "aid_center": {
+                  "type": "string"
                 }
               },
               "required": [
-                "name"
+                "aid_center_name",
+                "name",
+                "aid_center"
               ]
             },
             "readOnly": true
@@ -706,6 +767,58 @@
           "postal_code",
           "city",
           "address"
+        ]
+      },
+      "FeedItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "aid_center_name": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "icon": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "status_old": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 255
+          },
+          "status_new": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 255
+          },
+          "asset_request": {
+            "type": "string",
+            "nullable": true
+          },
+          "aid_center": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "aid_center_name",
+          "name",
+          "aid_center"
         ]
       }
     }

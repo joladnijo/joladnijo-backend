@@ -19,6 +19,15 @@ class AidCenterViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
 
+class FeedItemViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list`, `retrieve` actions.
+    """
+
+    queryset = models.FeedItem.objects.all()
+    serializer_class = serializers.FeedItemSerializer
+
+
 def handle_400(request, exception=None):
     return JsonResponse(
         status=400,

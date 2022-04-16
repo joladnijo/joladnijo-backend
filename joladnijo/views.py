@@ -19,10 +19,9 @@ class AidCenterViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
 
-class FeedItemViewSet(viewsets.ModelViewSet):
+class FeedItemViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    This viewset automatically provides `list`, `create`, `retrieve`,
-    `update` and `destroy` actions.
+    This viewset automatically provides `list`, `retrieve` actions.
     """
 
     queryset = models.FeedItem.objects.all()

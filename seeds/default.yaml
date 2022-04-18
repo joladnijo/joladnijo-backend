@@ -75,6 +75,11 @@
     name: Keverő pálcikák
     category: dff242f9-72e5-466e-8530-c7bd039fb774
 - model: joladnijo.assettype
+  pk: 07ad89b4-0c74-4c9f-a720-c4176d63c890
+  fields:
+    name: Fizetett munkatárs
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
+- model: joladnijo.assettype
   pk: 09c430a8-fde5-4542-a489-b4aaab21f648
   fields:
     name: Bébiétel, tápszer, tejpép, gabonapép
@@ -144,6 +149,11 @@
   fields:
     name: Szendvics
     category: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
+- model: joladnijo.assettype
+  pk: 3a1689a4-2839-4cbf-886c-6117049d0cd2
+  fields:
+    name: Személy fuvarozó
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
 - model: joladnijo.assettype
   pk: 3be4d89d-f78c-457e-a460-1ee94da87916
   fields:
@@ -295,6 +305,11 @@
     name: Ágynemű, párna
     category: 2159f29c-6687-4c5e-bc03-3796321866c2
 - model: joladnijo.assettype
+  pk: a26f68a7-517a-42db-a238-88266eff4a68
+  fields:
+    name: Dobozok, ládák
+    category: dff242f9-72e5-466e-8530-c7bd039fb774
+- model: joladnijo.assettype
   pk: a4251293-dc06-4939-b85d-6dc92756efe9
   fields:
     name: Kötszer
@@ -325,6 +340,11 @@
     name: Dezodor
     category: 98dc7404-86b7-492f-881d-0827dbb0e356
 - model: joladnijo.assettype
+  pk: be883c47-0133-48ed-b174-48ebec6827f5
+  fields:
+    name: Éjszakais
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
+- model: joladnijo.assettype
   pk: c1b17457-6318-46cd-aa95-5fbab381008e
   fields:
     name: Rendszeres önkéntes
@@ -349,6 +369,11 @@
   fields:
     name: Önkéntes
     category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
+- model: joladnijo.assettype
+  pk: e6e67ac5-bfa8-4aa0-b8c3-926c37042501
+  fields:
+    name: Szendvicses zacskók
+    category: dff242f9-72e5-466e-8530-c7bd039fb774
 - model: joladnijo.assetrequest
   pk: 71c70ed5-0b1c-4b98-9b3c-6bea671b2a20
   fields:

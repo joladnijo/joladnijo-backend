@@ -1,9 +1,75 @@
 - model: joladnijo.organization
+  pk: 159b6c66-f516-48bb-a019-d2362843a87a
+  fields:
+    note: ''
+    name: Magyar Máltai Szeretetszolgálat
+    slug: magyar-maltai-szeretetszolgalat
+- model: joladnijo.organization
+  pk: 184190ed-34f5-47eb-81f1-9e804b7f6f79
+  fields:
+    note: ''
+    name: Magyar Katolikus Karitász (Caritas Hungarica)
+    slug: magyar-katolikus-karitasz
+- model: joladnijo.organization
   pk: 2b03af33-9f70-4e20-9f5f-873ace5e16d9
   fields:
     note: ''
     name: Első szervezet
     slug: elso-szervezet
+- model: joladnijo.organization
+  pk: 3d42c502-790b-4e1a-9276-b4cd5a4d127c
+  fields:
+    note: A nemzetközi Jesuit Refugee Service (JRS) magyarországi szervezete.
+    name: Jezsuita Menekültszolgálat
+    slug: jezsuita-menekultszolgalat
+- model: joladnijo.organization
+  pk: 526e2c03-586b-4a92-bb3f-03e7e7198404
+  fields:
+    note: ''
+    name: Magyar Vöröskereszt
+    slug: magyar-voroskereszt
+- model: joladnijo.organization
+  pk: 5926e223-e3c6-4fbe-99ce-f0e42f4b46bc
+  fields:
+    note: ''
+    name: Magyar Evangélikus Egyház
+    slug: magyar-evangelikus-egyhaz
+- model: joladnijo.organization
+  pk: 7eecf706-d107-474a-92db-3c4609b1083c
+  fields:
+    note: ''
+    name: Ökumenikus Segélyszervezet
+    slug: okumenikus-segelyszervezet
+- model: joladnijo.organization
+  pk: bb3ae01d-575c-492b-9b5e-eee96ac8c0f7
+  fields:
+    note: ''
+    name: Magyar Református Szeretetszolgalat
+    slug: magyar-reformatus-szeretetszolgalat
+- model: joladnijo.organization
+  pk: d9a66387-f231-4647-b5cc-065baaae68ae
+  fields:
+    note: ''
+    name: Hit Gyülekezete Szeretetszolgálata
+    slug: hit-gyulekezete-szeretetszolgalata
+- model: joladnijo.organization
+  pk: fc3126dc-becb-4e7e-95d5-c349a341ecf7
+  fields:
+    note: ''
+    name: Baptista Szeretetszolgálat Adományozási és Szociális Segítő Központ
+    slug: baptista-szeretetszolgalat
+- model: joladnijo.organization
+  pk: fc4d0d33-7ec6-41fa-a77a-baba9f6a12b2
+  fields:
+    note: ''
+    name: Migration Aid
+    slug: migration-aid
+- model: joladnijo.organization
+  pk: fff905de-940f-41ae-8b9e-5afff462803d
+  fields:
+    note: ''
+    name: Budapest Bike Maffia
+    slug: budapest-bike-maffia
 - model: joladnijo.aidcenter
   pk: 6f826e4a-7866-4110-aec8-4b25789896c2
   fields:

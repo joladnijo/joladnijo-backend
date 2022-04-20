@@ -199,6 +199,20 @@ class AssetRequest(BaseModel, NoteableModel):
                     status_new=self.status,
                 )
 
+    def delete(self, *args, **kwargs):
+        with transaction.atomic():
+            icon = self.type.icon()
+            if icon is None or len(icon) == 0:
+                icon = 'delete'
+            FeedItem.objects.create(
+                name=self.name,
+                icon=icon,
+                asset_request=self,
+                aid_center=self.aid_center,
+                status_old=self.status,
+            )
+            return super().delete(*args, **kwargs)
+
 
 class FeedItem(BaseModel, NoteableModel):
     name = models.CharField(verbose_name='Név', max_length=255)

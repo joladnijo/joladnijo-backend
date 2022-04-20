@@ -27,6 +27,7 @@ handler500 = 'joladnijo.views.handle_500'
 router = SimpleRouter()
 router.register(r'aid-centers', views.AidCenterViewSet)
 router.register(r'feed-items', views.FeedItemViewSet)
+router.register(r'asset-types', views.AssetTypeViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

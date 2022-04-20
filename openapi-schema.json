@@ -317,6 +317,31 @@
           "feed-items"
         ]
       }
+    },
+    "/asset-types/": {
+      "get": {
+        "operationId": "listAssetTypes",
+        "description": "This viewset automatically provides `list` action.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssetType"
+                  }
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "asset-types"
+        ]
+      }
     }
   },
   "components": {
@@ -819,6 +844,40 @@
           "aid_center_name",
           "aid_center_slug",
           "name"
+        ]
+      },
+      "AssetType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "category": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "readOnly": true
+              },
+              "icon": {
+                "type": "string",
+                "readOnly": true
+              }
+            }
+          },
+          "icon": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "category",
+          "icon"
         ]
       }
     }

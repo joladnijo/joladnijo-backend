@@ -55,6 +55,7 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
                     ('name', 'slug'),
                     'photo',
                     'organization',
+                    'description',
                 ),
             },
         ),

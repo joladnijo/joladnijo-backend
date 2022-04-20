@@ -171,6 +171,8 @@ class FeedItemAdmin(admin.ModelAdmin):
 
     @admin.display(description='Adomány', ordering='name')
     def asset_request_link(self, obj):
+        if obj.asset_request is None:
+            return None
         url = reverse('admin:joladnijo_assetrequest_change', args=[obj.asset_request.pk])
         return mark_safe('<a href="%s">%s</a>' % (url, obj.asset_request))
 

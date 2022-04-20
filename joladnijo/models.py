@@ -27,12 +27,12 @@ class DescriptionMixin(models.Model):
         abstract = True
 
 
-class Organization(BaseModel, NoteMixin):
+class Organization(BaseModel, DescriptionMixin, NoteMixin):
     name = models.CharField(verbose_name='Név', max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
     history = HistoricalRecords()
 
-    class Meta(BaseModel.Meta, NoteMixin.Meta):
+    class Meta(BaseModel.Meta, DescriptionMixin.Meta, NoteMixin.Meta):
         verbose_name = 'Szervezet'
         verbose_name_plural = 'Szervezetek'
 

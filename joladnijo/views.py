@@ -1,6 +1,6 @@
 from django import VERSION
 from django.http import JsonResponse
-from rest_framework import viewsets
+from rest_framework import mixins, viewsets
 
 from . import models, serializers
 
@@ -26,6 +26,15 @@ class FeedItemViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = models.FeedItem.objects.all()
     serializer_class = serializers.FeedItemSerializer
+
+
+class AssetTypeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    This viewset automatically provides `list` action.
+    """
+
+    queryset = models.AssetType.objects.all()
+    serializer_class = serializers.AssetTypeSerializer
 
 
 def handle_400(request, exception=None):

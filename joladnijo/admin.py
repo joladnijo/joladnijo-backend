@@ -33,7 +33,7 @@ class AidCenterContactInline(ContactInline):
 @admin.register(models.Organization)
 class OrganizationAdmin(SimpleHistoryAdmin):
     list_display = ['name']
-    fields = (('name', 'slug'), 'note')
+    fields = (('name', 'slug'), 'description', 'note')
     prepopulated_fields = {'slug': ['name']}
     inlines = [OrganizationContactInline]
 
@@ -55,6 +55,7 @@ class AidCenterAdmin(gis_admin.GeoModelAdmin, SimpleHistoryAdmin):
                     ('name', 'slug'),
                     'photo',
                     'organization',
+                    'description',
                 ),
             },
         ),

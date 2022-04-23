@@ -409,6 +409,10 @@
                 "type": "string",
                 "maxLength": 255
               },
+              "description": {
+                "type": "string",
+                "maxLength": 255
+              },
               "name": {
                 "type": "string",
                 "maxLength": 255
@@ -735,6 +739,10 @@
             "readOnly": true
           },
           "note": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "description": {
             "type": "string",
             "maxLength": 255
           },

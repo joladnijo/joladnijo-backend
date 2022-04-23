@@ -13,19 +13,26 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class NoteableModel(models.Model):
+class NoteMixin(models.Model):
     note = models.TextField(verbose_name='Megjegyzések', max_length=255, blank=True)
 
     class Meta:
         abstract = True
 
 
-class Organization(BaseModel, NoteableModel):
+class DescriptionMixin(models.Model):
+    description = models.TextField(verbose_name='Leírás', max_length=255, blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class Organization(BaseModel, DescriptionMixin, NoteMixin):
     name = models.CharField(verbose_name='Név', max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
     history = HistoricalRecords()
 
-    class Meta(BaseModel.Meta, NoteableModel.Meta):
+    class Meta(BaseModel.Meta, DescriptionMixin.Meta, NoteMixin.Meta):
         verbose_name = 'Szervezet'
         verbose_name_plural = 'Szervezetek'
 
@@ -33,7 +40,7 @@ class Organization(BaseModel, NoteableModel):
         return self.name
 
 
-class AidCenter(BaseModel, NoteableModel):
+class AidCenter(BaseModel, DescriptionMixin, NoteMixin):
     name = models.CharField(verbose_name='Név', max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
     photo = models.FileField(verbose_name='Kép', max_length=255, blank=True, upload_to='aidcenter-photos')
@@ -57,7 +64,7 @@ class AidCenter(BaseModel, NoteableModel):
     campaign_ending_on = models.DateField(verbose_name='Gyűjtés vége', blank=True, null=True)
     history = HistoricalRecords()
 
-    class Meta(BaseModel.Meta, NoteableModel.Meta):
+    class Meta(BaseModel.Meta, DescriptionMixin.Meta, NoteMixin.Meta):
         verbose_name = 'Gyűjtőhely'
         verbose_name_plural = 'Gyűjtőhelyek'
 
@@ -77,7 +84,7 @@ class AidCenter(BaseModel, NoteableModel):
         return '%s - %s (%s)' % (self.organization.name, self.name, self.city)
 
 
-class Contact(BaseModel, NoteableModel):
+class Contact(BaseModel, NoteMixin):
     name = models.CharField(verbose_name='Név', max_length=255)
     email = models.EmailField(verbose_name='E-mail cím', max_length=255)
     phone = models.CharField(verbose_name='Telefonszám', max_length=20, blank=True)
@@ -91,7 +98,7 @@ class Contact(BaseModel, NoteableModel):
     )
     history = HistoricalRecords()
 
-    class Meta(BaseModel.Meta, NoteableModel.Meta):
+    class Meta(BaseModel.Meta, NoteMixin.Meta):
         verbose_name = 'Kapcsolattartó'
         verbose_name_plural = 'Kapcsolattartók'
 
@@ -145,7 +152,7 @@ class AssetRequestManager(models.Manager):
         return self.filter(status=AssetRequest.STATUS_FULFILLED)
 
 
-class AssetRequest(BaseModel, NoteableModel):
+class AssetRequest(BaseModel, NoteMixin):
     STATUS_REQUESTED = 'requested'
     STATUS_URGENT = 'urgent'
     STATUS_FULFILLED = 'fulfilled'
@@ -169,7 +176,7 @@ class AssetRequest(BaseModel, NoteableModel):
     history = HistoricalRecords()
     __original_status = None
 
-    class Meta(BaseModel.Meta, NoteableModel.Meta):
+    class Meta(BaseModel.Meta, NoteMixin.Meta):
         verbose_name = 'Adomány'
         verbose_name_plural = 'Adományok'
 
@@ -214,7 +221,7 @@ class AssetRequest(BaseModel, NoteableModel):
             return super().delete(*args, **kwargs)
 
 
-class FeedItem(BaseModel, NoteableModel):
+class FeedItem(BaseModel, NoteMixin):
     name = models.CharField(verbose_name='Név', max_length=255)
     icon = models.CharField(verbose_name='Ikon', max_length=50, blank=True)
     timestamp = models.DateTimeField(verbose_name='Időpont', auto_now_add=True)
@@ -226,7 +233,7 @@ class FeedItem(BaseModel, NoteableModel):
     status_new = models.CharField(verbose_name='Új állapot', max_length=255, blank=True, null=True)
     user = CurrentUserField(verbose_name='Felhasználó', on_delete=models.SET_NULL)
 
-    class Meta(BaseModel.Meta, NoteableModel.Meta):
+    class Meta(BaseModel.Meta, NoteMixin.Meta):
         verbose_name = 'Változás'
         verbose_name_plural = 'Változások'
         ordering = ['-timestamp']

@@ -1,24 +1,69 @@
 - model: joladnijo.organization
-  pk: 2b03af33-9f70-4e20-9f5f-873ace5e16d9
+  pk: 159b6c66-f516-48bb-a019-d2362843a87a
   fields:
     note: ''
-    name: Első szervezet
-    slug: elso-szervezet
-- model: joladnijo.aidcenter
-  pk: 6f826e4a-7866-4110-aec8-4b25789896c2
+    name: Magyar Máltai Szeretetszolgálat
+    slug: magyar-maltai-szeretetszolgalat
+- model: joladnijo.organization
+  pk: 184190ed-34f5-47eb-81f1-9e804b7f6f79
   fields:
     note: ''
-    name: Piripócs városháza
-    slug: piripocs-varoshaza
-    photo: ''
-    organization: 2b03af33-9f70-4e20-9f5f-873ace5e16d9
-    country_code: HU
-    postal_code: '3212'
-    city: Piripócs
-    address: Főtér 1.
-    geo_location: null
-    call_required: required
-    campaign_ending_on: null
+    name: Magyar Katolikus Karitász (Caritas Hungarica)
+    slug: magyar-katolikus-karitasz
+- model: joladnijo.organization
+  pk: 3d42c502-790b-4e1a-9276-b4cd5a4d127c
+  fields:
+    note: A nemzetközi Jesuit Refugee Service (JRS) magyarországi szervezete.
+    name: Jezsuita Menekültszolgálat
+    slug: jezsuita-menekultszolgalat
+- model: joladnijo.organization
+  pk: 526e2c03-586b-4a92-bb3f-03e7e7198404
+  fields:
+    note: ''
+    name: Magyar Vöröskereszt
+    slug: magyar-voroskereszt
+- model: joladnijo.organization
+  pk: 5926e223-e3c6-4fbe-99ce-f0e42f4b46bc
+  fields:
+    note: ''
+    name: Magyar Evangélikus Egyház
+    slug: magyar-evangelikus-egyhaz
+- model: joladnijo.organization
+  pk: 7eecf706-d107-474a-92db-3c4609b1083c
+  fields:
+    note: ''
+    name: Ökumenikus Segélyszervezet
+    slug: okumenikus-segelyszervezet
+- model: joladnijo.organization
+  pk: bb3ae01d-575c-492b-9b5e-eee96ac8c0f7
+  fields:
+    note: ''
+    name: Magyar Református Szeretetszolgalat
+    slug: magyar-reformatus-szeretetszolgalat
+- model: joladnijo.organization
+  pk: d9a66387-f231-4647-b5cc-065baaae68ae
+  fields:
+    note: ''
+    name: Hit Gyülekezete Szeretetszolgálata
+    slug: hit-gyulekezete-szeretetszolgalata
+- model: joladnijo.organization
+  pk: fc3126dc-becb-4e7e-95d5-c349a341ecf7
+  fields:
+    note: ''
+    name: Baptista Szeretetszolgálat Adományozási és Szociális Segítő Központ
+    slug: baptista-szeretetszolgalat
+- model: joladnijo.organization
+  pk: fc4d0d33-7ec6-41fa-a77a-baba9f6a12b2
+  fields:
+    note: ''
+    name: Migration Aid
+    slug: migration-aid
+- model: joladnijo.organization
+  pk: fff905de-940f-41ae-8b9e-5afff462803d
+  fields:
+    note: ''
+    name: Budapest Bike Maffia
+    slug: budapest-bike-maffia
 - model: joladnijo.assetcategory
   pk: 121d25fc-35a5-43ed-9912-efd94a929575
   fields:
@@ -70,15 +115,145 @@
     name: Tartós fél- vagy készétel
     category: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
 - model: joladnijo.assettype
+  pk: 034e8e56-0ed2-4a04-9f48-813f58622b61
+  fields:
+    name: Keverő pálcikák
+    category: dff242f9-72e5-466e-8530-c7bd039fb774
+- model: joladnijo.assettype
+  pk: 07ad89b4-0c74-4c9f-a720-c4176d63c890
+  fields:
+    name: Fizetett munkatárs
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
+- model: joladnijo.assettype
+  pk: 09c430a8-fde5-4542-a489-b4aaab21f648
+  fields:
+    name: Bébiétel, tápszer, tejpép, gabonapép
+    category: 121d25fc-35a5-43ed-9912-efd94a929575
+- model: joladnijo.assettype
+  pk: 0f82ef5a-0184-41c4-8c86-40b95bcee5fc
+  fields:
+    name: Felfújható nyakpárna
+    category: 2159f29c-6687-4c5e-bc03-3796321866c2
+- model: joladnijo.assettype
+  pk: 10626432-8e9f-4eef-a49a-1dcfdc27b94e
+  fields:
+    name: Bútor
+    category: 2159f29c-6687-4c5e-bc03-3796321866c2
+- model: joladnijo.assettype
+  pk: 1418e427-9550-4b2a-845f-91996d504b92
+  fields:
+    name: Pelenkázó alátét, popsitörlő, popsikérm
+    category: 121d25fc-35a5-43ed-9912-efd94a929575
+- model: joladnijo.assettype
+  pk: 14fcda07-b2b2-438a-b223-02e5c5af31f4
+  fields:
+    name: Gyerek higiénia, törlőkendő
+    category: 121d25fc-35a5-43ed-9912-efd94a929575
+- model: joladnijo.assettype
+  pk: 1730466f-6adb-4033-9858-1090d61f3e42
+  fields:
+    name: Sebfertőtlenítő, fertőtlenítő szer
+    category: 4fb1477e-d5fa-47e8-a11c-80d03103256d
+- model: joladnijo.assettype
+  pk: 1ab99766-476e-4d4c-89cb-cd9eeb38b98e
+  fields:
+    name: Instant kávé, tea, forrócsoki
+    category: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
+- model: joladnijo.assettype
+  pk: 1b8e95b9-8c1b-4a4d-8a4b-736e8ec8dd73
+  fields:
+    name: Kéz-, arc- és egyéb krémek
+    category: 98dc7404-86b7-492f-881d-0827dbb0e356
+- model: joladnijo.assettype
+  pk: 1d8243e3-8d1f-4a03-baee-498301a23525
+  fields:
+    name: Hálózsák
+    category: 2159f29c-6687-4c5e-bc03-3796321866c2
+- model: joladnijo.assettype
+  pk: 27a9d831-eb9a-4c59-bfdb-17b94661d771
+  fields:
+    name: Mosószer
+    category: 98dc7404-86b7-492f-881d-0827dbb0e356
+- model: joladnijo.assettype
   pk: 2c5d9f93-8822-488d-a203-24f6cc1ebcb3
   fields:
-    name: Sampon, tusfürdő, szappan
+    name: Sampon, tusfürdő, szappan (kis kiszerelésben)
     category: 98dc7404-86b7-492f-881d-0827dbb0e356
+- model: joladnijo.assettype
+  pk: 2c7105aa-e057-4410-8e69-ac745d989acc
+  fields:
+    name: Ágybetét, ágy
+    category: 2159f29c-6687-4c5e-bc03-3796321866c2
+- model: joladnijo.assettype
+  pk: 2de54664-ad05-426f-ab09-9568ab429ec5
+  fields:
+    name: Egyéb
+    category: 42863124-7b71-43e4-b30d-caf349382bf2
+- model: joladnijo.assettype
+  pk: 2f3fb82e-5c94-4bd6-a2f6-5446ff178cb5
+  fields:
+    name: Szendvics
+    category: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
+- model: joladnijo.assettype
+  pk: 3a1689a4-2839-4cbf-886c-6117049d0cd2
+  fields:
+    name: Személy fuvarozó
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
+- model: joladnijo.assettype
+  pk: 3be4d89d-f78c-457e-a460-1ee94da87916
+  fields:
+    name: Dörmi, belvita, sportszelet, müzliszelet, stb.
+    category: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
+- model: joladnijo.assettype
+  pk: 3db973ff-8d70-41df-a546-c2c565ab1184
+  fields:
+    name: Gyümölcs
+    category: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
+- model: joladnijo.assettype
+  pk: 3f5ce830-d81b-481c-9d39-7df08edc0ae5
+  fields:
+    name: Eldobható női és férfi borotva, borotvahab
+    category: 98dc7404-86b7-492f-881d-0827dbb0e356
+- model: joladnijo.assettype
+  pk: 3f9d369f-a7e3-40e4-8608-c7f06ba346d6
+  fields:
+    name: Gyerek ruházat
+    category: 121d25fc-35a5-43ed-9912-efd94a929575
+- model: joladnijo.assettype
+  pk: 41399274-5c14-4ddd-aa07-c6d3e345684b
+  fields:
+    name: Női lábbeli
+    category: 8b6a4f75-21bb-474e-a6a1-6e7390f0aaa4
+- model: joladnijo.assettype
+  pk: 450e3fba-3156-4535-ba36-dd794ce1177f
+  fields:
+    name: Férfi ruha
+    category: 8b6a4f75-21bb-474e-a6a1-6e7390f0aaa4
+- model: joladnijo.assettype
+  pk: 4c24d35d-00f0-42e5-b6a9-50e49ade1b0d
+  fields:
+    name: Takaró, pléd
+    category: 2159f29c-6687-4c5e-bc03-3796321866c2
+- model: joladnijo.assettype
+  pk: 4e004a30-deee-41fd-b44e-326d1a86f86a
+  fields:
+    name: Női ruha
+    category: 8b6a4f75-21bb-474e-a6a1-6e7390f0aaa4
 - model: joladnijo.assettype
   pk: 50342de6-e282-4c52-bffd-6dce41e1ede1
   fields:
     name: Babajáték
     category: 121d25fc-35a5-43ed-9912-efd94a929575
+- model: joladnijo.assettype
+  pk: 5584f5eb-3c09-44cd-86b2-86bb14561118
+  fields:
+    name: WC papír
+    category: 98dc7404-86b7-492f-881d-0827dbb0e356
+- model: joladnijo.assettype
+  pk: 587304e8-9d1e-4863-97ee-1f24180b7858
+  fields:
+    name: Tolmács
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
 - model: joladnijo.assettype
   pk: 5af85ee9-e80e-49d2-8ebf-06deee2ecb2c
   fields:
@@ -90,82 +265,157 @@
     name: Maszk
     category: 4fb1477e-d5fa-47e8-a11c-80d03103256d
 - model: joladnijo.assettype
+  pk: 6e676a77-3198-49c4-ac52-14e6d0fdab09
+  fields:
+    name: Alapanyag
+    category: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
+- model: joladnijo.assettype
+  pk: 723013db-bc0a-4d43-83eb-268affb79dc1
+  fields:
+    name: Tartós alapaanyag
+    category: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
+- model: joladnijo.assettype
+  pk: 72ad9b06-a30c-4821-80e3-b82ed960d65d
+  fields:
+    name: Babakocsi
+    category: 121d25fc-35a5-43ed-9912-efd94a929575
+- model: joladnijo.assettype
+  pk: 749bf164-ae67-4cd9-9d34-800385b9c9ee
+  fields:
+    name: Férfi lábbeli
+    category: 8b6a4f75-21bb-474e-a6a1-6e7390f0aaa4
+- model: joladnijo.assettype
+  pk: 75f3c0a0-3d1e-49a6-b94b-10d2a69505d7
+  fields:
+    name: Speciális, diétás élelmiszerek
+    category: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
+- model: joladnijo.assettype
+  pk: 7ae4e8b3-7865-47b9-9fbd-4c440ef0ce6e
+  fields:
+    name: Eldobható poharak
+    category: dff242f9-72e5-466e-8530-c7bd039fb774
+- model: joladnijo.assettype
+  pk: 7d4a63e1-a5cc-4c5f-a2d9-741c54739008
+  fields:
+    name: Fizikai munkás
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
+- model: joladnijo.assettype
+  pk: 7dcfc24c-2f06-4cd1-bd62-be9aafa5f968
+  fields:
+    name: Kis ásványvíz, dobozos üdítő
+    category: 19cf880b-1d21-48d5-8d2e-9d33198f0b61
+- model: joladnijo.assettype
+  pk: 805f5861-b179-4b63-a359-97a2ba75904f
+  fields:
+    name: Vény nélkül kapható gyógyszer
+    category: 4fb1477e-d5fa-47e8-a11c-80d03103256d
+- model: joladnijo.assettype
+  pk: 818cf758-e89d-4c43-bd07-3fc3771cd1ca
+  fields:
+    name: Vény nélkül kapható gyógyszer gyerekeknek
+    category: 121d25fc-35a5-43ed-9912-efd94a929575
+- model: joladnijo.assettype
+  pk: 84aa8e70-c1d6-4cd1-9317-022f9477428c
+  fields:
+    name: Kis kiszerelésű kézfertőtlenítő
+    category: 98dc7404-86b7-492f-881d-0827dbb0e356
+- model: joladnijo.assettype
+  pk: 86c7bdfa-3ae4-44de-8460-081f60b1db77
+  fields:
+    name: Egészségügyi betét
+    category: 98dc7404-86b7-492f-881d-0827dbb0e356
+- model: joladnijo.assettype
   pk: 8bcd834d-076b-4390-b45f-c0cb2cf2fd47
   fields:
     name: Állateledel
     category: 42863124-7b71-43e4-b30d-caf349382bf2
 - model: joladnijo.assettype
+  pk: 8d7fa3b3-ffe7-4ae6-b59f-3fa3a826ce79
+  fields:
+    name: Törülköző
+    category: 98dc7404-86b7-492f-881d-0827dbb0e356
+- model: joladnijo.assettype
+  pk: 94cec3ae-e5d3-48d6-b076-0b4b143ee039
+  fields:
+    name: Mosogatószer
+    category: 98dc7404-86b7-492f-881d-0827dbb0e356
+- model: joladnijo.assettype
+  pk: 9fb6df3d-f7fb-4157-aa0c-f3cfd1c8025d
+  fields:
+    name: Vitaminok
+    category: 4fb1477e-d5fa-47e8-a11c-80d03103256d
+- model: joladnijo.assettype
+  pk: a1092346-292e-40fd-9697-b2444fe4da02
+  fields:
+    name: Ágynemű, párna
+    category: 2159f29c-6687-4c5e-bc03-3796321866c2
+- model: joladnijo.assettype
+  pk: a26f68a7-517a-42db-a238-88266eff4a68
+  fields:
+    name: Dobozok, ládák
+    category: dff242f9-72e5-466e-8530-c7bd039fb774
+- model: joladnijo.assettype
+  pk: a4251293-dc06-4939-b85d-6dc92756efe9
+  fields:
+    name: Kötszer
+    category: 4fb1477e-d5fa-47e8-a11c-80d03103256d
+- model: joladnijo.assettype
+  pk: a4c97672-4e47-4a73-9fbd-cde6ea03175a
+  fields:
+    name: Gumikesztyű
+    category: 4fb1477e-d5fa-47e8-a11c-80d03103256d
+- model: joladnijo.assettype
   pk: a97e71e3-e871-4458-ae12-e74a950fd709
   fields:
-    name: Eldobható tányérok
+    name: Eldobható tányérok, evőeszközök
     category: dff242f9-72e5-466e-8530-c7bd039fb774
+- model: joladnijo.assettype
+  pk: ae3090d8-0644-4582-874c-ed58a41e6cee
+  fields:
+    name: Adomány fuvarozó
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
+- model: joladnijo.assettype
+  pk: b2e7daeb-427b-42af-a29b-b7fe0e0f0207
+  fields:
+    name: Pelenka
+    category: 121d25fc-35a5-43ed-9912-efd94a929575
+- model: joladnijo.assettype
+  pk: b52998a8-77f7-4b74-94d4-c9fdf7e13c20
+  fields:
+    name: Dezodor
+    category: 98dc7404-86b7-492f-881d-0827dbb0e356
+- model: joladnijo.assettype
+  pk: be883c47-0133-48ed-b174-48ebec6827f5
+  fields:
+    name: Éjszakais
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
+- model: joladnijo.assettype
+  pk: c1b17457-6318-46cd-aa95-5fbab381008e
+  fields:
+    name: Rendszeres önkéntes
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
+- model: joladnijo.assettype
+  pk: c6d26511-e2d0-42c5-b72e-79daa846cb33
+  fields:
+    name: Egészségügyis
+    category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
 - model: joladnijo.assettype
   pk: cec385ad-2475-491a-a7d7-d0922b1ece49
   fields:
-    name: Matrac
+    name: Matrac, polifoam
     category: 2159f29c-6687-4c5e-bc03-3796321866c2
+- model: joladnijo.assettype
+  pk: cfc4cb59-9090-4d72-8e2e-bfb00eeb11b2
+  fields:
+    name: Cumi, cumisüveg
+    category: 121d25fc-35a5-43ed-9912-efd94a929575
 - model: joladnijo.assettype
   pk: d468943c-ac9f-4fbe-8262-875dc15e5f49
   fields:
     name: Önkéntes
     category: f10cbfa1-ceee-4e73-800c-07cbcb0f33af
-- model: joladnijo.assetrequest
-  pk: 71c70ed5-0b1c-4b98-9b3c-6bea671b2a20
+- model: joladnijo.assettype
+  pk: e6e67ac5-bfa8-4aa0-b8c3-926c37042501
   fields:
-    note: ''
-    name: Kemény matrac
-    type: cec385ad-2475-491a-a7d7-d0922b1ece49
-    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
-    status: fulfilled
-- model: joladnijo.assetrequest
-  pk: c955ba04-d868-4694-b927-a5f176352a97
-  fields:
-    note: ''
-    name: Pizza
-    type: 028d1c5f-5cbc-4456-b066-9d6a5c950a17
-    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
-    status: requested
-- model: joladnijo.assetrequest
-  pk: d7692345-faeb-46d1-ab81-e0470d104062
-  fields:
-    note: ''
-    name: Sampon
-    type: 2c5d9f93-8822-488d-a203-24f6cc1ebcb3
-    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
-    status: urgent
-- model: joladnijo.feeditem
-  pk: 7e647cbf-a177-4ae7-b740-ac96c5f57ae3
-  fields:
-    note: ''
-    name: Kemény matrac
-    icon: create
-    timestamp: 2022-04-12 20:33:38.946547+00:00
-    asset_request: 71c70ed5-0b1c-4b98-9b3c-6bea671b2a20
-    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
-    status_old: null
-    status_new: fulfilled
-    user: null
-- model: joladnijo.feeditem
-  pk: a5111295-770b-44ea-be4a-4307d166b2ea
-  fields:
-    note: ''
-    name: Sampon
-    icon: create
-    timestamp: 2022-04-12 20:32:35.188937+00:00
-    asset_request: d7692345-faeb-46d1-ab81-e0470d104062
-    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
-    status_old: null
-    status_new: urgent
-    user: null
-- model: joladnijo.feeditem
-  pk: f3717414-950b-4c57-8baa-5404bc369303
-  fields:
-    note: ''
-    name: Pizza
-    icon: create
-    timestamp: 2022-04-12 20:32:20.530271+00:00
-    asset_request: c955ba04-d868-4694-b927-a5f176352a97
-    aid_center: 6f826e4a-7866-4110-aec8-4b25789896c2
-    status_old: null
-    status_new: requested
-    user: null
+    name: Szendvicses zacskók
+    category: dff242f9-72e5-466e-8530-c7bd039fb774
